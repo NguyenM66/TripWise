@@ -1,0 +1,44 @@
+{
+  "name": "reactuserauth",
+  "version": "1.0.0",
+  "description": "React App that uses JWT, Passport and Mongo for user authentication",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --use_strict index.js",
+    "bundle": "webpack",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NguyenM66/ReactUserAuth.git"
+  },
+  "author": "MonicaNguyen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NguyenM66/ReactUserAuth/issues"
+  },
+  "homepage": "https://github.com/NguyenM66/ReactUserAuth#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "jsonwebtoken": "^8.1.0",
+    "material-ui": "^0.17.0",
+    "mongoose": "^4.10.8",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "react-router": "^2.8.1",
+    "react-tap-event-plugin": "^2.0.1",
+    "validator": "^7.0.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.23.1",
+    "babel-loader": "^6.4.0",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-react": "^6.23.0",
+    "nodemon": "^1.11.0",
+    "webpack": "^2.2.1"
+  }
+}
