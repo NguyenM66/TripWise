@@ -6,7 +6,7 @@ module.exports = {
 		clientSecret: 'Ub4pDiYVrb4jvbv2H_MqzuN4',
 	},
 	mongodb: {
-		dbURI: 'mongodb://NguyenM66:monica66@ds239557.mlab.com:39557/tripwise_oauth',
+		dbUri: 'mongodb://NguyenM66:monica66@ds239557.mlab.com:39557/tripwise_oauth',
 		jwtSecret: "mlab secret phrase"
 	},
 	session: {

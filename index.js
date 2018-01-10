@@ -1,10 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const passport = require('passport');
-const config = require('./config');
+const config = require('./config/keys');
 
 // connect to the database and load models
-require('./server/models').connect(config.dbUri);
+require('./server/models').connect(config.mongodb.dbUri);
 
 const app = express();
 // tell the app to look for static files in these directories
@@ -22,6 +22,8 @@ passport.use('local-signup', localSignupStrategy);
 passport.use('local-login', localLoginStrategy);
 
 // pass the authenticaion checker middleware
+// authCheckMiddleware applied before declaring "/api" routes
+// to ensure that middleware fucntion is executed before proceeding to any /api route.
 const authCheckMiddleware = require('./server/middleware/auth-check');
 app.use('/api', authCheckMiddleware);
 

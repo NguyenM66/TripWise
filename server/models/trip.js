@@ -11,6 +11,6 @@ const tripSchema = new Schema({
   //payerid: {type: Schema.Types.ObjectId, ref: "Guest"}
 });
 
-const Trip = mongoose.model("Trip", tripSchema);
 
-module.exports = Trip;
+
+module.exports = mongoose.model("Trip", tripSchema);

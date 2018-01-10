@@ -4,6 +4,9 @@ const PassportLocalStrategy = require('passport-local').Strategy;
 
 /**
  * Return the Passport Local Strategy object.
+ * session is false because using token approach to authentication 
+ * (here may be where to add google cookie session)
+ * passReqToCallback required true to read other parameters in POST body message
  */
 module.exports = new PassportLocalStrategy({
   usernameField: 'email',
@@ -11,6 +14,7 @@ module.exports = new PassportLocalStrategy({
   session: false,
   passReqToCallback: true
 }, (req, email, password, done) => {
+  // create new user document
   const userData = {
     email: email.trim(),
     password: password.trim(),
