@@ -91,6 +91,7 @@ router.post('/signup', (req, res, next) => {
       if (err.name === 'MongoError' && err.code === 11000) {
         // the 11000 Mongo code is for a duplication email error
         // the 409 HTTP status code is for conflict error
+        console.log("Error Here", err)
         return res.status(409).json({
           success: false,
           message: 'Check the form for errors.',
@@ -102,7 +103,7 @@ router.post('/signup', (req, res, next) => {
       console.log(err)
       return res.status(400).json({
         success: false,
-        message: 'Could not process the form.'
+        message: 'Could not process the form. Email Exists'
       });
     }
 
