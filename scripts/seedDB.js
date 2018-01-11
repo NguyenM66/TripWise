@@ -75,9 +75,18 @@ db.Trip
 .then(() => db.Trip.insertMany(tripSeed))
 .then(function(tripdata){
   console.log("data", tripdata);
-  process.exit(0);
+  //process.exit(0);
 })
 .catch(err => {
   console.error(err);
   process.exit(1);
 });
+
+// db.Trip
+//   .insertMany(tripSeed)
+//   .then(function(dbUser) {
+//     console.log(dbUser);
+//   })
+//   .catch(function(err) {
+//     console.log(err.message);
+//   });
