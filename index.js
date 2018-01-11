@@ -1,20 +1,18 @@
+const mongoose = require('mongoose');
 const express = require('express');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const config = require('./config/keys');
-const mongoose = require('mongoose');
-
-
-// // connect to the database and load models
-// require('./server/models').connect(config.mongodb.dbUri);
 
 // Set up promises with mongoose
 mongoose.Promise = global.Promise;
 
-//connect to mongodb
+// Connect to mongodb
 mongoose.connect(config.mongodb.dbURI, () => {
 	console.log('connected to mongodb');
 })
+
+require('./server/models');
 
 const app = express();
 // tell the app to look for static files in these directories
