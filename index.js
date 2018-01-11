@@ -10,9 +10,8 @@ const config = require('./config/keys');
 
 // Set up promises with mongoose
 mongoose.Promise = global.Promise;
-
 //connect to mongodb
-mongoose.connect(config.mongodb.dbURI, () => {
+mongoose.connect(config.mongodb.dbUri, () => {
 	console.log('connected to mongodb');
 })
 
@@ -45,6 +44,10 @@ const authRoutes = require('./server/routes/auth');
 const apiRoutes = require('./server/routes/api');
 app.use('/auth', authRoutes);
 app.use('/api', apiRoutes);
+app.use(function(err,req,res,next){
+	console.log(err)
+	res.status(500).send(err.message)
+})
 
 
 // start the server
