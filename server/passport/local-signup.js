@@ -1,4 +1,8 @@
-const User = require('mongoose').model('User');
+//causes nothing to happen on submit button
+// const User = require('mongoose').model('User');
+//causes Could not process form on submit button
+const db = require('mongoose');
+const User = require('../models/user');
 const PassportLocalStrategy = require('passport-local').Strategy;
 
 
@@ -21,7 +25,7 @@ module.exports = new PassportLocalStrategy({
     name: req.body.name.trim()
   };
 
-  const newUser = new User(userData);
+  const newUser = new db.User(userData);
   newUser.save((err) => {
     if (err) { return done(err); }
 

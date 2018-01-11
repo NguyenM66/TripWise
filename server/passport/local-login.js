@@ -1,5 +1,9 @@
 const jwt = require('jsonwebtoken');
-const User = require('mongoose').model('User');
+//causes nothing to happen on submit button
+// const User = require('mongoose').model('User');
+//causes Could not process form on submit button
+const db = require('mongoose');
+const User = require('../models/user');
 const PassportLocalStrategy = require('passport-local').Strategy;
 const config = require('../../config/keys');
 
@@ -19,7 +23,7 @@ module.exports = new PassportLocalStrategy({
   };
 
   // find a user by email address
-  return User.findOne({ email: userData.email }, (err, user) => {
+  return db.User.findOne({ email: userData.email }, (err, user) => {
     if (err) { return done(err); }
 
     if (!user) {

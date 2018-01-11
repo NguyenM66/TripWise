@@ -4,14 +4,19 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const config = require('./config/keys');
 
+
+// // connect to the database and load models
+// require('./server/models').connect(config.mongodb.dbUri);
+
 // Set up promises with mongoose
 mongoose.Promise = global.Promise;
 
-// Connect to mongodb
+//connect to mongodb
 mongoose.connect(config.mongodb.dbURI, () => {
 	console.log('connected to mongodb');
 })
 
+// require all models
 require('./server/models');
 
 const app = express();

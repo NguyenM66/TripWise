@@ -8,6 +8,12 @@ mongoose.connect(keys.mongodb.dbUri, () => {
   console.log('connected to mongodb');
 })
 
+const userSeed = {
+  email: "test@gmail.com",
+  password: "test",
+  name: "test"
+}
+
 const tripSeed = [
   {
     token: "",
@@ -75,6 +81,18 @@ db.Trip
 .then(() => db.Trip.insertMany(tripSeed))
 .then(function(tripdata){
   console.log("data", tripdata);
+  //process.exit(0);
+})
+.catch(err => {
+  console.error(err);
+  process.exit(1);
+});
+
+db.User
+.remove({})
+.then(() => db.User.insertMany(userSeed))
+.then(function(userdata){
+  console.log("data", userdata);
   //process.exit(0);
 })
 .catch(err => {

@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
-const User = require('mongoose').model('User');
+// const User = require('mongoose').model('User');
+const db = require('mongoose');
+const User = require('../models/user');
 const config = require('../../config/keys');
 
 
@@ -22,7 +24,7 @@ module.exports = (req, res, next) => {
     const userId = decoded.sub;
 
     // check if a user exists
-    return User.findById(userId, (userErr, user) => {
+    return db.User.findById(userId, (userErr, user) => {
       if (userErr || !user) {
         return res.status(401).end();
       }
