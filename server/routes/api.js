@@ -5,7 +5,7 @@ const router = new express.Router();
 
 // matches with api/dashboard on client side
 router.get('/dashboard', (req, res) => {
-
+console.log("recieved get request to api dashboard")
 	db.User
 		.find(req.query)
 		.sort({date:-1})

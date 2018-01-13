@@ -4,6 +4,7 @@ import Dashboard from '../components/Dashboard.jsx';
 
 
 class DashboardPage extends React.Component {
+
   /**
    * Class constructor.
    */
@@ -11,7 +12,7 @@ class DashboardPage extends React.Component {
     super(props);
 
     this.state = {
-      secretData: ''
+      secretData: []
     };
   }
 
@@ -26,9 +27,10 @@ class DashboardPage extends React.Component {
     xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
     xhr.responseType = 'json';
     xhr.addEventListener('load', () => {
+      console.log("response: ", xhr.response);
       if (xhr.status === 200) {
         this.setState({
-          secretData: xhr.response.message
+          secretData: xhr.response
         });
       }
     });
