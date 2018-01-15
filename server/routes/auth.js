@@ -140,7 +140,9 @@ router.post('/login', (req, res, next) => {
       });
     }
 
-
+    //console.log("passport authenticate", passport.authenticate('local-login', (err, token, userData)));
+    console.log("userData inside routes/auth:", userData);
+    console.log("token inside routes/auth:", token);
     return res.json({
       success: true,
       message: 'You have successfully logged in!',

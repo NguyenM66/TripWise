@@ -8,7 +8,18 @@ const userSchema = new mongoose.Schema({
     index: { unique: true }
   },
   password: String,
-  name: String
+  name: String,
+  // 'trips' is an array that stores ObjectIds
+  //  the ref property links these ObjectIds to the Trip model
+  //  this allows us to populate the User with any associated Trips
+  trips: [
+    {
+      // store ObjectIds in the array
+      type: mongoose.Schema.Types.ObjectId,
+      // the ObjectIds will refer to the ids in the Trip model
+      ref: "Trip"
+    }
+  ]
 });
 
 

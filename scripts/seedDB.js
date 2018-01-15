@@ -11,7 +11,8 @@ mongoose.connect(keys.mongodb.dbUri, () => {
 const userSeed = {
   email: "test@gmail.com",
   password: "test",
-  name: "test"
+  name: "test",
+  trips: []
 }
 
 const tripSeed = [
@@ -24,8 +25,8 @@ const tripSeed = [
         cost: 1500,
       },
       {
-        title: "Car",
-        cost: 300,
+        title: "Boats",
+        cost: 500,
       }
     ],
     guests: [
@@ -40,10 +41,13 @@ const tripSeed = [
       {
         name: "David",
         email: "davidpadams@gmail.com"
+      },
+      {
+        name: "Cassie",
+        email: "cassiep@gmail.com"
       }
     ],
     invoices: [],
-    //date: new Date(Date.now())
   },
   {
     token: "",
@@ -56,6 +60,35 @@ const tripSeed = [
       {
         title: "Car",
         cost: 300,
+      }
+    ],
+    guests: [
+        {
+          name: "Monica",
+          email: "monica.nguyen@gmail.com"
+        },
+        {
+          name: "Billy",
+          email: "william.reed.11@gmail.com"
+        },
+        {
+          name: "Ryan",
+          email: "ryans@gmail.com"
+        }
+      ],
+    invoices: [],
+  },
+    {
+    token: "",
+    trip: "Peace River",
+    expenses: [
+      {
+        title: "Boats",
+        cost: 160,
+      },
+      {
+        title: "Gas",
+        cost: 100,
       }
     ],
     guests: [
@@ -99,12 +132,3 @@ db.User
   console.error(err);
   process.exit(1);
 });
-
-// db.Trip
-//   .insertMany(tripSeed)
-//   .then(function(dbUser) {
-//     console.log(dbUser);
-//   })
-//   .catch(function(err) {
-//     console.log(err.message);
-//   });
