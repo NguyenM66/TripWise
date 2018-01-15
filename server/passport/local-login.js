@@ -53,6 +53,7 @@ module.exports = new PassportLocalStrategy({
         name: user.name
       };
 
+      // console.log("bearer in passport local-login", req.headers);
       // console.log("user data", user);
       // console.log("token", token);
       // console.log("data", data);

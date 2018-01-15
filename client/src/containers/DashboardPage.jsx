@@ -27,10 +27,12 @@ class DashboardPage extends React.Component {
     xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
     xhr.responseType = 'json';
     xhr.addEventListener('load', () => {
-      console.log("response: ", xhr.response);
+      console.log("response: ", xhr.response[0]);
+      console.log("response: ", xhr.response[0].trips[0].trip);
+
       if (xhr.status === 200) {
         this.setState({
-          secretData: xhr.response
+          secretData: xhr.response[0],
         });
       }
     });
@@ -41,7 +43,10 @@ class DashboardPage extends React.Component {
    * Render the component.
    */
   render() {
-    return (<Dashboard secretData={this.state.secretData} />);
+
+
+    return (
+      <Dashboard secretData={this.state.secretData} />);
   }
 
 }

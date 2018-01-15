@@ -2,53 +2,20 @@ const express = require('express');
 const db = require("../models");
 const passport = require('passport');
 const jwt  = require('jsonwebtoken');
-
+const config = require('../../config/keys.js');
 const router = new express.Router();
 
-// router.get('/dashboard', passport.authenticate('jwt', {session: false}), function(req, res) {
-// 	console.log("you can't see this without a token", users[req.user.id]);
-// 	var token= getToken(req.headers);
-// 		if(token){
-// 			User.find(function(err, users) {
-// 				if(err) return next(err);
-// 				res.json(users);
-// 			});
-// 		}else {
-// 			return res.status(403).send({success: false, msg: 'Unauthorized'});
-// 		}
-// });
 
 router.get('/dashboard', (req, res, next) => {
-	var token= getToken(req.headers);
-  return passport.authenticate('local-login', (err, token, userData) => {
- 
-    console.log("userData inside routes/api:", userData);
-    console.log("token inside routes/api:", token);
-    return res.json({
-      success: true,
-      message: 'You have successfully logged in!',
-      token,
-      user: userData
-    });
-  })(req, res, next);
+  let userDBKey =  (jwt.verify(req.headers.authorization.split(' ')[1],config.mongodb.jwtSecret)).sub;
+  
+  db.User
+    .find({"_id":userDBKey})
+    .populate("trips")
+    .sort({date:-1})
+	.then(dbModel => {res.json(dbModel); console.log(dbModel)})
+	.catch(err => res.status(422).json(err));
 });
-
-
-// matches with api/dashboard on client side
-// router.get('/dashboard', (req, res) => {
-// 	// passport.authenticate('local-login', (err, token, userData) => {
-// 	// console.log("trying to get user data", req.session.passport.user);
-// 	// console.log("userData inside routes/api:", userData);
-//     // console.log("token inside routes/api:", token);
-// 	// })(req,res);
-// 	console.log("recieved get request to api dashboard")
-// 	console.log("requser:", req.user)
-// 	db.User
-// 		.find({})
-// 		.sort({date:-1})
-// 		.then(dbModel => {res.json(dbModel); console.log(dbModel)})
-// 		.catch(err => res.status(422).json(err));
-// });
 
 
 // matches with api/users on client side
@@ -91,9 +58,9 @@ router.post('/submit', (req, res) => {
 })
 
 // matches with api/populateduser on client side
-// route that gets all trips from db
+// route that gets all users and their trips from db
 router.get('/populateduser', (req, res) => {
-	console.log("recieved get request to api trips")
+	console.log("recieved get request to api user")
 	db.User
 		.find({})
 		.populate("trips")

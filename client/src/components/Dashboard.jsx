@@ -8,17 +8,22 @@ const Dashboard = (props) => (
       title="Dashboard"
       subtitle="You should get access to this page only after authentication."
     />
-    {props.secretData.map(user => (
-      <code>
-        {JSON.stringify(user)}
-      </code>
-    ))}
+    <div className="content">
+      <ul>
+        <li>
+          <strong>Name:</strong> {props.secretData.name}
+        </li>
+        <li>
+          <strong>Email:</strong> {props.secretData.email}
+        </li>
+        <li>
+          <strong>Trips:</strong> {props.secretData.trip}
+        </li>
+      </ul>
+    </div>
+
 
   </Card>
 );
-
-// Dashboard.propTypes = {
-//   secretData: PropTypes.array.isRequired
-// };
 
 export default Dashboard;
