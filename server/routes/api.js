@@ -13,7 +13,7 @@ router.get('/dashboard', (req, res, next) => {
     .find({"_id":userDBKey})
     .populate("trips")
     .sort({date:-1})
-	.then(dbModel => {res.json(dbModel); console.log(dbModel)})
+	.then(dbModel => {res.json(dbModel[0]); console.log(dbModel[0])})
 	.catch(err => res.status(422).json(err));
 });
 

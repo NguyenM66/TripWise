@@ -45,7 +45,13 @@ a:hover {
 .container {
   margin: 0 auto;
   text-align: center;
-  width: 700px;
+  width: 1000px;
+}
+
+.smallcontiner {
+  margin: 0 auto;
+  text-align: center;
+  width: 250px;
 }
 
 .card-heading {

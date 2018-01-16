@@ -7,7 +7,7 @@ const Base = ({ children }) => (
   <div>
     <div className="top-bar">
       <div className="top-bar-left">
-        <IndexLink to="/">React App</IndexLink>
+        <IndexLink to="/">TripWise</IndexLink>
       </div>
 
     { /* condition statement for deciding which menu should be shown */ }
