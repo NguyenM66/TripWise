@@ -5,63 +5,50 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
 
-const SignUpForm = ({
+const ExpenseForm = ({
   onSubmit,
   onChange,
   errors,
-  user,
+  newExpense,
 }) => (
-  <Card className="container">
+  <Card className="smallcontainer">
     <form action="/" onSubmit={onSubmit}>
-      <h2 className="card-heading">Sign Up</h2>
+      <h2 className="card-heading">New Expense</h2>
 
       {errors.summary && <p className="error-message">{errors.summary}</p>}
 
       <div className="field-line">
         <TextField
-          floatingLabelText="Name"
-          name="name"
-          errorText={errors.name}
+          floatingLabelText="Title"
+          name="title"
+          errorText={errors.title}
           onChange={onChange}
-          value={user.name}
+          value={newExpense.title}
         />
       </div>
 
       <div className="field-line">
         <TextField
-          floatingLabelText="Email"
-          name="email"
-          errorText={errors.email}
+          floatingLabelText="Cost"
+          name="cost"
+          errorText={errors.cost}
           onChange={onChange}
-          value={user.email}
-        />
-      </div>
-
-      <div className="field-line">
-        <TextField
-          floatingLabelText="Password"
-          type="password"
-          name="password"
-          onChange={onChange}
-          errorText={errors.password}
-          value={user.password}
+          value={newExpense.cost}
         />
       </div>
 
       <div className="button-line">
-        <RaisedButton type="submit" label="Create New Account" primary />
+        <RaisedButton type="submit" label="Create New Expense" primary />
       </div>
-
-      <CardText>Already have an account? <Link to={'/login'}>Log in</Link></CardText>
     </form>
   </Card>
 );
 
-SignUpForm.propTypes = {
+ExpenseForm.propTypes = {
   onSubmit: PropTypes.func,
   onChange: PropTypes.func,
   errors: PropTypes.object,
-  user: PropTypes.object
+  newExpense: PropTypes.object
 };
 
-export default SignUpForm;
+export default ExpenseForm;

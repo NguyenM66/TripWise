@@ -36,18 +36,15 @@ class DashboardPage extends React.Component {
         name: "",
         email: ""
       },
-      //**remove user for test with form only
-      user: {
-        email: '',
-        password: ''
-      }
     };
 
     //bind is used to set this.state to function
     this.iterateTrips = this.iterateTrips.bind(this);
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
-    this.processForm = this.processForm.bind(this);
+    this.processExpenseForm = this.processExpenseForm.bind(this);
+    this.changeExpense = this.changeExpense.bind(this);
+
 
   }
 
@@ -75,36 +72,46 @@ class DashboardPage extends React.Component {
     xhr.send();
   }
 
+handleOpen() {
+  this.setState({ open: true });
+};
+
+handleClose() {
+  this.setState({ open: false });
+  console.log(this.context);
+};
+
 //**make procesExspenseForm, processGuestForm, processGuestForm
-processForm(event) {
+processExpenseForm(event) {
   // prevent default action. in this case, action is the form submission event
   event.preventDefault();
 
   // create a string for an HTTP body message
-  const email = encodeURIComponent(this.state.user.email);
-  const password = encodeURIComponent(this.state.user.password);
-  const formData = `email=${email}&password=${password}`;
+  const title = encodeURIComponent(this.state.newExpense.title);
+  const cost = encodeURIComponent(this.state.newExpense.cost);
+  const formData = `title=${title}&cost=${cost}`;
 
   // create an AJAX request
   const xhr = new XMLHttpRequest();
-  xhr.open('post', '/auth/login');
+  xhr.open('post', '/auth/expense');
   xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
   xhr.responseType = 'json';
   xhr.addEventListener('load', () => {
     if (xhr.status === 200) {
       // success
-
+      console.log("inside expense function")
       // change the component-container state
       this.setState({
         errors: {}
       });
 
       // save the token
-      Auth.authenticateUser(xhr.response.token);
+      // Auth.authenticateUser(xhr.response.token);
 
 
-      // change the current URL to /
-      this.context.router.replace('/');
+      // change/redirect the current URL to /
+      // I don't need to change the url after 
+      // this.context.router.replace('/');
     } else {
       // failure
 
@@ -115,34 +122,40 @@ processForm(event) {
       this.setState({
         errors
       });
+      console.log("expense formData: ", formData);
     }
   });
   xhr.send(formData);
 }
 
-handleOpen() {
-  this.setState({ open: true });
-};
+  // Change the expense object.
+  // @param {object} event - the JavaScript event object
+  changeExpense(event) {
+    const field = event.target.name;
+    const newExpense = this.state.newExpense;
+    newExpense[field] = event.target.value;
 
-handleClose() {
-  this.setState({ open: false });
-  console.log(this.context);
-};
+    this.setState({
+      newExpense
+    });
+  }
+
 
 // iterate through trips and get trip data
+
 iterateTrips() {
   console.log("iterating");
-  const actions = [
+    const actions = [
       <FlatButton
         label="Cancel"
         primary={true}
-        onTouchTap={this.handleClose}
+        onClick={this.handleClose}
       />,
       <FlatButton
         label="Submit"
         primary={true}
-        keyboardFocused={true}
-        onTouchTap={this.handleClose}
+        disabled={false}
+        onClick={this.handleClose}
       />,
     ];
 
@@ -169,16 +182,15 @@ iterateTrips() {
             <Dialog
               title="Dialog With Actions"
               actions={actions}
-              modal={false}
+              modal={true}
               open={this.state.open}
-              onRequestClose={this.handleClose}
             >
             <ExpenseForm
               onSubmit={this.processForm}
-              onChange={this.changeUser}
+              onChange={this.changeExpense}
               errors={this.state.errors}
               successMessage={this.state.successMessage}
-              user={this.state.user}
+              newExpense={this.state.newExpense}
             />
               <h2>Expenses</h2>
               {
