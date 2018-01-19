@@ -17825,6 +17825,10 @@ var _ExpenseForm = __webpack_require__(213);
 
 var _ExpenseForm2 = _interopRequireDefault(_ExpenseForm);
 
+var _GuestForm = __webpack_require__(487);
+
+var _GuestForm2 = _interopRequireDefault(_GuestForm);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -17857,10 +17861,12 @@ var DashboardPage = function (_React$Component) {
         trip: ""
       },
       newExpense: {
+        currentTrip: "",
         title: "",
         cost: ""
       },
       newGuest: {
+        currentTrip: "",
         name: "",
         email: ""
       }
@@ -17907,8 +17913,8 @@ var DashboardPage = function (_React$Component) {
     }
   }, {
     key: 'handleOpen',
-    value: function handleOpen() {
-      this.setState({ open: true });
+    value: function handleOpen(tripid) {
+      this.setState({ open: tripid });
     }
   }, {
     key: 'handleClose',
@@ -17921,26 +17927,110 @@ var DashboardPage = function (_React$Component) {
 
 
     //**make procesExspenseForm, processGuestForm, processGuestForm
-    value: function processExpenseForm(event) {
+    //pass trip id as a parameter through bind, tripid is within the scope of this bind
+    value: function processExpenseForm(tripid, event) {
       // prevent default action. in this case, action is the form submission event
       event.preventDefault();
 
+      console.log("tripid:", tripid);
       // create a string for an HTTP body message
+      var currentTrip = encodeURIComponent(tripid);
       var title = encodeURIComponent(this.state.newExpense.title);
       var cost = encodeURIComponent(this.state.newExpense.cost);
-      var formData = 'title=' + title + '&cost=' + cost;
+      var formData = 'currentTrip=' + currentTrip + '&title=' + title + '&cost=' + cost;
+      console.log("formData", formData);
 
       // create an AJAX request
       var xhr = new XMLHttpRequest();
-      console.log("httprequest", xhr);
       xhr.open('post', '/api/expense', true);
       xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-      xhr.onreadystatechange = function () {
-        console.log(xhr.readyState);
-      };
       xhr.responseType = 'json';
       xhr.send(formData);
+      //use .bind(this) with function to allow this.state
+      xhr.onreadystatechange = function () {
+        var _this3 = this;
+
+        if (xhr.readyState == 4 && xhr.status == 200) {
+          // console.log('xhr.readyState=', xhr.readyState);
+          // console.log('xhr.status=', xhr.status);
+          // console.log('response=', xhr.response);
+          var _xhr = new XMLHttpRequest();
+          _xhr.open('get', '/api/dashboard');
+          _xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+          // set the authorization HTTP header
+          _xhr.setRequestHeader('Authorization', 'bearer ' + _Auth2.default.getToken());
+          _xhr.responseType = 'json';
+          _xhr.addEventListener('load', function () {
+            console.log("response: ", _xhr.response);
+
+            if (_xhr.status === 200) {
+              _this3.setState({
+                username: _xhr.response.name,
+                useremail: _xhr.response.email,
+                trips: _xhr.response.trips,
+                userdbkey: _xhr.response._id
+              });
+              console.log("state: ", _this3.state);
+            }
+          });
+          _xhr.send();
+        }
+      }.bind(this);
+    }
+
+    //**make procesExspenseForm, processGuestForm, processGuestForm
+    //pass trip id as a parameter through bind, tripid is within the scope of this bind
+
+  }, {
+    key: 'processGuestForm',
+    value: function processGuestForm(tripid, event) {
+      // prevent default action. in this case, action is the form submission event
+      event.preventDefault();
+
+      console.log("tripid:", tripid);
+      // create a string for an HTTP body message
+      var currentTrip = encodeURIComponent(tripid);
+      var name = encodeURIComponent(this.state.newGuest.name);
+      var email = encodeURIComponent(this.state.newGuest.email);
+      var formData = 'currentTrip=' + currentTrip + '&name=' + name + '&email=' + email;
       console.log("formData", formData);
+
+      // create an AJAX request
+      var xhr = new XMLHttpRequest();
+      xhr.open('post', '/api/guest', true);
+      xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+      xhr.responseType = 'json';
+      xhr.send(formData);
+      //use .bind(this) with function to allow this.state
+      xhr.onreadystatechange = function () {
+        var _this4 = this;
+
+        if (xhr.readyState == 4 && xhr.status == 200) {
+          // console.log('xhr.readyState=', xhr.readyState);
+          // console.log('xhr.status=', xhr.status);
+          // console.log('response=', xhr.response);
+          var _xhr2 = new XMLHttpRequest();
+          _xhr2.open('get', '/api/dashboard');
+          _xhr2.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+          // set the authorization HTTP header
+          _xhr2.setRequestHeader('Authorization', 'bearer ' + _Auth2.default.getToken());
+          _xhr2.responseType = 'json';
+          _xhr2.addEventListener('load', function () {
+            console.log("response: ", _xhr2.response);
+
+            if (_xhr2.status === 200) {
+              _this4.setState({
+                username: _xhr2.response.name,
+                useremail: _xhr2.response.email,
+                trips: _xhr2.response.trips,
+                userdbkey: _xhr2.response._id
+              });
+              console.log("state: ", _this4.state);
+            }
+          });
+          _xhr2.send();
+        }
+      }.bind(this);
     }
 
     // Change the expense object.
@@ -17958,16 +18048,31 @@ var DashboardPage = function (_React$Component) {
       });
     }
 
+    // Change the guest object.
+    // @param {object} event - the JavaScript event object
+
+  }, {
+    key: 'changeGuest',
+    value: function changeGuest(event) {
+      var field = event.target.name;
+      var newGuest = this.state.newGuest;
+      newGuest[field] = event.target.value;
+
+      this.setState({
+        newGuest: newGuest
+      });
+    }
+
     // iterate through trips and get trip data
 
   }, {
     key: 'iterateTrips',
     value: function iterateTrips() {
-      var _this3 = this;
+      var _this5 = this;
 
       console.log("iterating");
       var actions = [_react2.default.createElement(_FlatButton2.default, {
-        label: 'Cancel',
+        label: 'Finished',
         primary: true,
         onClick: this.handleClose
       }), _react2.default.createElement(_FlatButton2.default, {
@@ -17977,7 +18082,6 @@ var DashboardPage = function (_React$Component) {
         onClick: this.handleClose
       })];
 
-      //**update ExpenseForm used to test pupulating to dialog
       return this.state.trips.map(function (trip, index) {
         return _react2.default.createElement(
           _Card.Card,
@@ -18021,22 +18125,29 @@ var DashboardPage = function (_React$Component) {
             _react2.default.createElement(
               'div',
               null,
-              _react2.default.createElement(_RaisedButton2.default, { label: trip.trip, onClick: _this3.handleOpen, primary: true }),
+              _react2.default.createElement(_RaisedButton2.default, { label: trip.trip, onClick: _this5.handleOpen.bind(_this5, trip._id), primary: true }),
               _react2.default.createElement(
                 _Dialog2.default,
                 {
                   title: 'Dialog With Actions',
                   actions: actions,
                   modal: true,
-                  open: _this3.state.open,
+                  open: _this5.state.open == trip._id,
                   autoScrollBodyContent: true
                 },
                 _react2.default.createElement(_ExpenseForm2.default, {
-                  onSubmit: _this3.processExpenseForm,
-                  onChange: _this3.changeExpense,
-                  errors: _this3.state.errors,
-                  successMessage: _this3.state.successMessage,
-                  newExpense: _this3.state.newExpense
+                  onSubmit: _this5.processExpenseForm.bind(_this5, trip._id),
+                  onChange: _this5.changeExpense,
+                  errors: _this5.state.errors,
+                  successMessage: _this5.state.successMessage,
+                  newExpense: _this5.state.newExpense
+                }),
+                _react2.default.createElement(_GuestForm2.default, {
+                  onSubmit: _this5.processGuestForm.bind(_this5, trip._id),
+                  onChange: _this5.changeGuest,
+                  errors: _this5.state.errors,
+                  successMessage: _this5.state.successMessage,
+                  newGuest: _this5.state.newGuest
                 }),
                 _react2.default.createElement(
                   'h2',
@@ -46618,6 +46729,96 @@ module.exports = function(module) {
 	return module;
 };
 
+
+/***/ }),
+/* 487 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = __webpack_require__(58);
+
+var _Card = __webpack_require__(49);
+
+var _RaisedButton = __webpack_require__(64);
+
+var _RaisedButton2 = _interopRequireDefault(_RaisedButton);
+
+var _TextField = __webpack_require__(106);
+
+var _TextField2 = _interopRequireDefault(_TextField);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var GuestForm = function GuestForm(_ref) {
+  var onSubmit = _ref.onSubmit,
+      onChange = _ref.onChange,
+      errors = _ref.errors,
+      newGuest = _ref.newGuest;
+  return _react2.default.createElement(
+    _Card.Card,
+    { className: 'smallcontainer' },
+    _react2.default.createElement(
+      'form',
+      { action: '/', onSubmit: onSubmit },
+      _react2.default.createElement(
+        'h2',
+        { className: 'card-heading' },
+        'New Guest'
+      ),
+      errors.summary && _react2.default.createElement(
+        'p',
+        { className: 'error-message' },
+        errors.summary
+      ),
+      _react2.default.createElement(
+        'div',
+        { className: 'field-line' },
+        _react2.default.createElement(_TextField2.default, {
+          floatingLabelText: 'Name',
+          name: 'name',
+          errorText: errors.name,
+          onChange: onChange,
+          value: newGuest.name
+        })
+      ),
+      _react2.default.createElement(
+        'div',
+        { className: 'field-line' },
+        _react2.default.createElement(_TextField2.default, {
+          floatingLabelText: 'Email',
+          name: 'email',
+          errorText: errors.email,
+          onChange: onChange,
+          value: newGuest.email
+        })
+      ),
+      _react2.default.createElement(
+        'div',
+        { className: 'button-line' },
+        _react2.default.createElement(_RaisedButton2.default, { type: 'submit', label: 'Create New Guest', primary: true })
+      )
+    )
+  );
+};
+
+GuestForm.propTypes = {
+  onSubmit: _react.PropTypes.func,
+  onChange: _react.PropTypes.func,
+  errors: _react.PropTypes.object,
+  newGuest: _react.PropTypes.object
+};
+
+exports.default = GuestForm;
 
 /***/ })
 /******/ ]);

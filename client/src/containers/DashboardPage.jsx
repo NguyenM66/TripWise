@@ -6,6 +6,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import ExpenseForm from '../components/ExpenseForm.jsx';
+import GuestForm from '../components/GuestForm.jsx';
 
 
 class DashboardPage extends React.Component {
@@ -29,10 +30,12 @@ class DashboardPage extends React.Component {
         trip: ""
       },
       newExpense: {
+        currentTrip: "",
         title: "",
         cost: ""
       },
       newGuest: {
+        currentTrip: "",
         name: "",
         email: ""
       },
@@ -72,38 +75,114 @@ class DashboardPage extends React.Component {
     xhr.send();
   }
 
-handleOpen() {
-  this.setState({ open: true });
-};
+  handleOpen(tripid) {
+    this.setState({ open: tripid });
+  };
 
-handleClose() {
-  this.setState({ open: false });
-  console.log(this.context);
-};
+  handleClose() {
+    this.setState({ open: false });
+    console.log(this.context);
+  };
 
-//**make procesExspenseForm, processGuestForm, processGuestForm
-processExpenseForm(event) {
-  // prevent default action. in this case, action is the form submission event
-  event.preventDefault();
+  //**make procesExspenseForm, processGuestForm, processGuestForm
+  //pass trip id as a parameter through bind, tripid is within the scope of this bind
+  processExpenseForm(tripid,event) {
+    // prevent default action. in this case, action is the form submission event
+    event.preventDefault();
 
-  // create a string for an HTTP body message
-  const title = encodeURIComponent(this.state.newExpense.title);
-  const cost = encodeURIComponent(this.state.newExpense.cost);
-  const formData = `title=${title}&cost=${cost}`;
+    console.log("tripid:", tripid)
+    // create a string for an HTTP body message
+    const currentTrip = encodeURIComponent(tripid);
+    const title = encodeURIComponent(this.state.newExpense.title);
+    const cost = encodeURIComponent(this.state.newExpense.cost);
+    const formData = `currentTrip=${currentTrip}&title=${title}&cost=${cost}`;
+    console.log("formData", formData);
 
-  // create an AJAX request
-  const xhr = new XMLHttpRequest();
-  console.log("httprequest", xhr);
-  xhr.open('post', '/api/expense', true);
-  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
-  xhr.onreadystatechange = function()
-  {
-    console.log(xhr.readyState);
+    // create an AJAX request
+    const xhr = new XMLHttpRequest();
+    xhr.open('post', '/api/expense', true);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
+    xhr.responseType = 'json';
+    xhr.send(formData);
+    //use .bind(this) with function to allow this.state
+    xhr.onreadystatechange=function(){
+       if (xhr.readyState==4 && xhr.status==200){
+          // console.log('xhr.readyState=', xhr.readyState);
+          // console.log('xhr.status=', xhr.status);
+          // console.log('response=', xhr.response);
+          const xhr = new XMLHttpRequest();
+          xhr.open('get', '/api/dashboard');
+          xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+          // set the authorization HTTP header
+          xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
+          xhr.responseType = 'json';
+          xhr.addEventListener('load', () => {
+            console.log("response: ", xhr.response);
+
+            if (xhr.status === 200) {
+              this.setState({
+                username: xhr.response.name,
+                useremail: xhr.response.email,
+                trips: xhr.response.trips,
+                userdbkey: xhr.response._id
+              });
+              console.log("state: ", this.state);
+            }
+          });
+          xhr.send();
+       }
+    }.bind(this)
   }
-  xhr.responseType = 'json';
-  xhr.send(formData);
-  console.log("formData", formData);
-}
+
+  //**make procesExspenseForm, processGuestForm, processGuestForm
+  //pass trip id as a parameter through bind, tripid is within the scope of this bind
+  processGuestForm(tripid,event) {
+    // prevent default action. in this case, action is the form submission event
+      event.preventDefault();
+
+      console.log("tripid:", tripid)
+      // create a string for an HTTP body message
+      const currentTrip = encodeURIComponent(tripid);
+      const name = encodeURIComponent(this.state.newGuest.name);
+      const email = encodeURIComponent(this.state.newGuest.email);
+      const formData = `currentTrip=${currentTrip}&name=${name}&email=${email}`;
+      console.log("formData", formData);
+
+      // create an AJAX request
+      const xhr = new XMLHttpRequest();
+      xhr.open('post', '/api/guest', true);
+      xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
+      xhr.responseType = 'json';
+      xhr.send(formData);
+      //use .bind(this) with function to allow this.state
+      xhr.onreadystatechange=function(){
+         if (xhr.readyState==4 && xhr.status==200){
+            // console.log('xhr.readyState=', xhr.readyState);
+            // console.log('xhr.status=', xhr.status);
+            // console.log('response=', xhr.response);
+            const xhr = new XMLHttpRequest();
+            xhr.open('get', '/api/dashboard');
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            // set the authorization HTTP header
+            xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
+            xhr.responseType = 'json';
+            xhr.addEventListener('load', () => {
+              console.log("response: ", xhr.response);
+
+              if (xhr.status === 200) {
+                this.setState({
+                  username: xhr.response.name,
+                  useremail: xhr.response.email,
+                  trips: xhr.response.trips,
+                  userdbkey: xhr.response._id
+                });
+                console.log("state: ", this.state);
+              }
+            });
+            xhr.send();
+         }
+      }.bind(this)
+    }
 
   // Change the expense object.
   // @param {object} event - the JavaScript event object
@@ -117,6 +196,18 @@ processExpenseForm(event) {
     });
   }
 
+  // Change the guest object.
+  // @param {object} event - the JavaScript event object
+  changeGuest(event) {
+    const field = event.target.name;
+    const newGuest = this.state.newGuest;
+    newGuest[field] = event.target.value;
+
+    this.setState({
+      newGuest
+    });
+  }
+
 
 // iterate through trips and get trip data
 
@@ -124,7 +215,7 @@ iterateTrips() {
   console.log("iterating");
     const actions = [
       <FlatButton
-        label="Cancel"
+        label="Finished"
         primary={true}
         onClick={this.handleClose}
       />,
@@ -136,7 +227,6 @@ iterateTrips() {
       />,
     ];
 
-  //**update ExpenseForm used to test pupulating to dialog
   return(
     this.state.trips.map((trip, index) => (
       <Card className = "smallcontainer">
@@ -155,20 +245,27 @@ iterateTrips() {
             ))
           }
           <div>
-            <RaisedButton label={trip.trip} onClick={this.handleOpen} primary/>
+            <RaisedButton label={trip.trip} onClick={this.handleOpen.bind(this, trip._id)} primary/>
             <Dialog
               title="Dialog With Actions"
               actions={actions}
               modal={true}
-              open={this.state.open}
+              open={this.state.open == trip._id}
               autoScrollBodyContent={true}
             >
             <ExpenseForm
-              onSubmit={this.processExpenseForm}
+              onSubmit={this.processExpenseForm.bind(this,trip._id)}
               onChange={this.changeExpense}
               errors={this.state.errors}
               successMessage={this.state.successMessage}
               newExpense={this.state.newExpense}
+            />
+            <GuestForm
+              onSubmit={this.processGuestForm.bind(this,trip._id)}
+              onChange={this.changeGuest}
+              errors={this.state.errors}
+              successMessage={this.state.successMessage}
+              newGuest={this.state.newGuest}
             />
               <h2>Expenses</h2>
               {

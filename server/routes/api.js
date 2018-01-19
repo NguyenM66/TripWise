@@ -18,14 +18,28 @@ router.get('/dashboard', (req, res, next) => {
 });
 
 router.post('/expense', (req, res, next) => {
-    // console.log("userData inside routes/auth:", userData);
-    // console.log("token inside routes/auth:", token);
-    return res.json({
-      success: true,
-      message: 'You have successfully created a new expense',
-      user: userData
-    });
-  });
+
+	db.Trip
+		.find({"_id": req.body.currentTrip})
+		.then(dbTripExpense => {
+			return db.Trip.findOneAndUpdate({"_id": req.body.currentTrip}, {$push: {expenses: req.body}}, {new: true});
+		})
+		.then(dbTripExpense => {res.json(dbTripExpense); console.log("dbTripExpense", dbTripExpense)})
+		.catch(err => res.status(422).json(err));
+		//console.log("req.body", req.body)
+});
+
+router.post('/guest', (req, res, next) => {
+
+	db.Trip
+		.find({"_id": req.body.currentTrip})
+		.then(dbTripGuest => {
+			return db.Trip.findOneAndUpdate({"_id": req.body.currentTrip}, {$push: {guests: req.body}}, {new: true});
+		})
+		.then(dbTripGuest => {res.json(dbTripGuest); console.log("dbTripGuest", dbTripGuest)})
+		.catch(err => res.status(422).json(err));
+		//console.log("req.body", req.body)
+});
 
 // matches with api/users on client side
 // route that gets all users from db

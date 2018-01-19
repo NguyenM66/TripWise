@@ -5,15 +5,15 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
 
-const SignUpForm = ({
+const GuestForm = ({
   onSubmit,
   onChange,
   errors,
-  user,
+  newGuest,
 }) => (
-  <Card className="container">
+  <Card className="smallcontainer">
     <form action="/" onSubmit={onSubmit}>
-      <h2 className="card-heading">Sign Up</h2>
+      <h2 className="card-heading">New Guest</h2>
 
       {errors.summary && <p className="error-message">{errors.summary}</p>}
 
@@ -23,7 +23,7 @@ const SignUpForm = ({
           name="name"
           errorText={errors.name}
           onChange={onChange}
-          value={user.name}
+          value={newGuest.name}
         />
       </div>
 
@@ -33,35 +33,22 @@ const SignUpForm = ({
           name="email"
           errorText={errors.email}
           onChange={onChange}
-          value={user.email}
-        />
-      </div>
-
-      <div className="field-line">
-        <TextField
-          floatingLabelText="Password"
-          type="password"
-          name="password"
-          onChange={onChange}
-          errorText={errors.password}
-          value={user.password}
+          value={newGuest.email}
         />
       </div>
 
       <div className="button-line">
-        <RaisedButton type="submit" label="Create New Account" primary />
+        <RaisedButton type="submit" label="Create New Guest" primary />
       </div>
-
-      <CardText>Already have an account? <Link to={'/login'}>Log in</Link></CardText>
     </form>
   </Card>
 );
 
-SignUpForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired
+GuestForm.propTypes = {
+  onSubmit: PropTypes.func,
+  onChange: PropTypes.func,
+  errors: PropTypes.object,
+  newGuest: PropTypes.object
 };
 
-export default SignUpForm;
+export default GuestForm;
