@@ -93,39 +93,16 @@ processExpenseForm(event) {
 
   // create an AJAX request
   const xhr = new XMLHttpRequest();
-  xhr.open('post', '/auth/expense');
-  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  console.log("httprequest", xhr);
+  xhr.open('post', '/api/expense', true);
+  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
+  xhr.onreadystatechange = function()
+  {
+    console.log(xhr.readyState);
+  }
   xhr.responseType = 'json';
-  xhr.addEventListener('load', () => {
-    if (xhr.status === 200) {
-      // success
-      console.log("inside expense function")
-      // change the component-container state
-      this.setState({
-        errors: {}
-      });
-
-      // save the token
-      // Auth.authenticateUser(xhr.response.token);
-
-
-      // change/redirect the current URL to /
-      // I don't need to change the url after 
-      // this.context.router.replace('/');
-    } else {
-      // failure
-
-      // change the component state
-      const errors = xhr.response.errors ? xhr.response.errors : {};
-      errors.summary = xhr.response.message;
-
-      this.setState({
-        errors
-      });
-      console.log("expense formData: ", formData);
-    }
-  });
   xhr.send(formData);
+  console.log("formData", formData);
 }
 
   // Change the expense object.
@@ -184,9 +161,10 @@ iterateTrips() {
               actions={actions}
               modal={true}
               open={this.state.open}
+              autoScrollBodyContent={true}
             >
             <ExpenseForm
-              onSubmit={this.processForm}
+              onSubmit={this.processExpenseForm}
               onChange={this.changeExpense}
               errors={this.state.errors}
               successMessage={this.state.successMessage}

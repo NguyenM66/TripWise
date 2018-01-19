@@ -17,43 +17,15 @@ router.get('/dashboard', (req, res, next) => {
 	.catch(err => res.status(422).json(err));
 });
 
-// router.post('/expense', (req, res, next) => {
-  //console.log("bearer in routes/auth", req.headers);
-  // const validationResult = validateLoginForm(req.body);
-  // if (!validationResult.success) {
-  //   return res.status(400).json({
-  //     success: false,
-  //     message: validationResult.message,
-  //     errors: validationResult.errors
-  //   });
-  // }
-
-
-  // return passport.authenticate('local-login', (err, token, userData) => {
-  //   if (err) {
-  //     if (err.name === 'IncorrectCredentialsError') {
-  //       return res.status(400).json({
-  //         success: false,
-  //         message: err.message
-  //       });
-  //     }
-
-  //     return res.status(400).json({
-  //       success: false,
-  //       message: 'Could not process the form.'
-  //     });
-  //   }
-
+router.post('/expense', (req, res, next) => {
     // console.log("userData inside routes/auth:", userData);
     // console.log("token inside routes/auth:", token);
-  //   return res.json({
-  //     success: true,
-  //     message: 'You have successfully added a new expense!',
-  //     token,
-  //     user: userData
-  //   });
-  // })(req, res, next);
-// });
+    return res.json({
+      success: true,
+      message: 'You have successfully created a new expense',
+      user: userData
+    });
+  });
 
 // matches with api/users on client side
 // route that gets all users from db

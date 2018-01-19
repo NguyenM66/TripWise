@@ -17922,8 +17922,6 @@ var DashboardPage = function (_React$Component) {
 
     //**make procesExspenseForm, processGuestForm, processGuestForm
     value: function processExpenseForm(event) {
-      var _this3 = this;
-
       // prevent default action. in this case, action is the form submission event
       event.preventDefault();
 
@@ -17934,39 +17932,15 @@ var DashboardPage = function (_React$Component) {
 
       // create an AJAX request
       var xhr = new XMLHttpRequest();
-      xhr.open('post', '/auth/expense');
+      console.log("httprequest", xhr);
+      xhr.open('post', '/api/expense', true);
       xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+      xhr.onreadystatechange = function () {
+        console.log(xhr.readyState);
+      };
       xhr.responseType = 'json';
-      xhr.addEventListener('load', function () {
-        if (xhr.status === 200) {
-          // success
-          console.log("inside expense function");
-          // change the component-container state
-          _this3.setState({
-            errors: {}
-          });
-
-          // save the token
-          // Auth.authenticateUser(xhr.response.token);
-
-
-          // change/redirect the current URL to /
-          // I don't need to change the url after 
-          // this.context.router.replace('/');
-        } else {
-          // failure
-
-          // change the component state
-          var errors = xhr.response.errors ? xhr.response.errors : {};
-          errors.summary = xhr.response.message;
-
-          _this3.setState({
-            errors: errors
-          });
-          console.log("expense formData: ", formData);
-        }
-      });
       xhr.send(formData);
+      console.log("formData", formData);
     }
 
     // Change the expense object.
@@ -17989,7 +17963,7 @@ var DashboardPage = function (_React$Component) {
   }, {
     key: 'iterateTrips',
     value: function iterateTrips() {
-      var _this4 = this;
+      var _this3 = this;
 
       console.log("iterating");
       var actions = [_react2.default.createElement(_FlatButton2.default, {
@@ -18047,21 +18021,22 @@ var DashboardPage = function (_React$Component) {
             _react2.default.createElement(
               'div',
               null,
-              _react2.default.createElement(_RaisedButton2.default, { label: trip.trip, onClick: _this4.handleOpen, primary: true }),
+              _react2.default.createElement(_RaisedButton2.default, { label: trip.trip, onClick: _this3.handleOpen, primary: true }),
               _react2.default.createElement(
                 _Dialog2.default,
                 {
                   title: 'Dialog With Actions',
                   actions: actions,
                   modal: true,
-                  open: _this4.state.open
+                  open: _this3.state.open,
+                  autoScrollBodyContent: true
                 },
                 _react2.default.createElement(_ExpenseForm2.default, {
-                  onSubmit: _this4.processForm,
-                  onChange: _this4.changeExpense,
-                  errors: _this4.state.errors,
-                  successMessage: _this4.state.successMessage,
-                  newExpense: _this4.state.newExpense
+                  onSubmit: _this3.processExpenseForm,
+                  onChange: _this3.changeExpense,
+                  errors: _this3.state.errors,
+                  successMessage: _this3.state.successMessage,
+                  newExpense: _this3.state.newExpense
                 }),
                 _react2.default.createElement(
                   'h2',
