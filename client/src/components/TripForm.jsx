@@ -5,63 +5,40 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
 
-const SignUpForm = ({
+const TripForm = ({
   onSubmit,
   onChange,
   errors,
-  user,
+  newTrip,
 }) => (
-  <Card className="container">
+  <Card className="smallcontainer">
     <form action="/" onSubmit={onSubmit}>
-      <h2 className="card-heading">Sign Up</h2>
+      <h2 className="card-heading">New Trip</h2>
 
       {errors.summary && <p className="error-message">{errors.summary}</p>}
 
       <div className="field-line">
         <TextField
-          floatingLabelText="Name"
-          name="name"
-          errorText={errors.name}
+          floatingLabelText="Trip Name"
+          name="trip"
+          errorText={errors.trip}
           onChange={onChange}
-          value={user.name}
-        />
-      </div>
-
-      <div className="field-line">
-        <TextField
-          floatingLabelText="Email"
-          name="email"
-          errorText={errors.email}
-          onChange={onChange}
-          value={user.email}
-        />
-      </div>
-
-      <div className="field-line">
-        <TextField
-          floatingLabelText="Password"
-          type="password"
-          name="password"
-          onChange={onChange}
-          errorText={errors.password}
-          value={user.password}
+          value={newTrip.trip}
         />
       </div>
 
       <div className="button-line">
-        <RaisedButton type="submit" label="Create New Account" primary />
+        <RaisedButton type="submit" label="Create New Trip" primary />
       </div>
-
-      <CardText>Already have an account? <Link to={'/login'}>Log in</Link></CardText>
     </form>
   </Card>
 );
 
-SignUpForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired
+TripForm.propTypes = {
+  onSubmit: PropTypes.func,
+  onChange: PropTypes.func,
+  errors: PropTypes.object,
+  newTrip: PropTypes.object
 };
 
-export default SignUpForm;
+export default TripForm;

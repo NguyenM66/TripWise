@@ -7,7 +7,7 @@ const router = new express.Router();
 
 
 router.get('/dashboard', (req, res, next) => {
-  let userDBKey =  (jwt.verify(req.headers.authorization.split(' ')[1],config.mongodb.jwtSecret)).sub;
+  let userDBKey = (jwt.verify(req.headers.authorization.split(' ')[1],config.mongodb.jwtSecret)).sub;
   
   db.User
     .find({"_id":userDBKey})
@@ -16,6 +16,21 @@ router.get('/dashboard', (req, res, next) => {
 	.then(dbModel => {res.json(dbModel[0]); console.log(dbModel[0])})
 	.catch(err => res.status(422).json(err));
 });
+
+router.post('/trip', (req, res, next) => {
+	console.log("recieved post to api trips with associated user")
+	db.Trip
+		.create(req.body)
+		// if a Trip was create successfully, find one User and push the new Trip's _id to the User's 'trips' array
+		// {new: true} tells the query that we want it to return the updated User (it returns the original by default)
+		// since our mogoose query returns a promise, we can chain another '.then' whcihc recieves the result of the query
+		.then(dbTrip => {
+			return db.User.findOneAndUpdate({"_id": req.body.currentUser}, {$push: {trips: dbTrip._id}}, {new: true});
+		})
+		.then(dbTrip => {res.json(dbTrip); console.log("dbTrip", dbTrip)})
+		.catch(err => res.status(422).json(err));
+})
+
 
 router.post('/expense', (req, res, next) => {
 
@@ -70,7 +85,7 @@ router.post('/submit', (req, res) => {
 	db.Trip
 		.create(req.body)
 		.sort({date:-1})
-		// if a Trip was create successfully, find one User and push the new Trip's _id to the User's 'trips' array
+		// if a Trip was created successfully, find one User and push the new Trip's _id to the User's 'trips' array
 		// {new: true} tells the query that we want it to return the updated User (it returns the original by default)
 		// since our mogoose query returns a promise, we can chain another '.then' whcihc recieves the result of the query
 		.then(dbTrip => {

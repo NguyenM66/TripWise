@@ -8,12 +8,5 @@ module.exports = {
 	mongodb: {
 		dbUri: 'mongodb://NguyenM66:monica66@ds239557.mlab.com:39557/tripwise_oauth',
 		jwtSecret: "mlab secret phrase"
-	},
-	session: {
-		cookieKey: 'tripwise is awesome'
-	},
- 	localdb: {
-  		dbUri: "mongodb://localhost/react_app",
-  		jwtSecret: "a secret phrase!!"
 	}
 }
