@@ -1,6 +1,8 @@
 body {
   margin: 0;
   font-size: 16px;
+  background-image: url("../images/mapmod.jpg");
+  background-color: #cccccc;
 }
 
 a {
