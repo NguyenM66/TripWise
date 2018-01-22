@@ -56,6 +56,61 @@ router.post('/guest', (req, res, next) => {
 		//console.log("req.body", req.body)
 });
 
+router.put('/update', (req, res, next) => {
+	if(req.body.currentArray === "expenses"){
+		db.Trip
+		.findById({"_id": req.body.currentTrip})
+		.then(dbItem => {
+			// update array with removed item
+			console.log("dbItem", dbItem)
+			console.log("req.body", req.body)
+			const array = dbItem.expenses
+			const index = req.body.deleteIndex
+			console.log("array", array)
+			array.splice(index, 1)
+			console.log("array", array);
+			// update database with update array
+			return db.Trip.update({"_id": req.body.currentTrip}, {"expenses": array});
+		})
+		.then(dbItem => {res.json(dbItem); console.log("dbItem", dbItem)}
+			)
+		.catch(err => res.status(422).json(err));
+	}
+	else if (req.body.currentArray === "guests") {
+		db.Trip
+		.findById({"_id": req.body.currentTrip})
+		.then(dbItem => {
+			// update array with removed item
+			console.log("dbItem", dbItem)
+			console.log("req.body", req.body)
+			const array = dbItem.guests
+			const index = req.body.deleteIndex
+			console.log("array", array)
+			array.splice(index, 1)
+			console.log("array", array);
+			// update database with update array
+			return db.Trip.update({"_id": req.body.currentTrip}, {"guests": array});
+		})
+		.then(dbItem => {res.json(dbItem); console.log("dbItem", dbItem)}
+			)
+		.catch(err => res.status(422).json(err));
+	}
+		
+})
+
+router.delete('/delete', (req, res, next) => {
+	db.Trip
+	.findById({"_id": req.body.currentTrip})
+	.then(dbModel => {
+		console.log("req.body", req.body)
+		// update database with deleted trip
+		dbModel.remove();
+	})
+	.then(dbModel => {res.json(dbModel); console.log("dbModel", dbModel)}
+		)
+	.catch(err => res.status(422).json(err));
+})
+
 // matches with api/users on client side
 // route that gets all users from db
 router.get('/users', (req, res) => {

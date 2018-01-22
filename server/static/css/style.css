@@ -44,13 +44,11 @@ a:hover {
 
 .container {
   margin: 0 auto;
-  text-align: center;
   width: 1000px;
 }
 
 .smallcontiner {
   margin: 0 auto;
-  text-align: center;
   width: 250px;
 }
 
@@ -70,4 +68,14 @@ a:hover {
 .success-message {
   padding: 0 16px;
   color: green;
+}
+
+.delete-btn {
+  float: right;
+  color: #e74944;
+}
+
+
+h1 {
+  text-align: center;
 }

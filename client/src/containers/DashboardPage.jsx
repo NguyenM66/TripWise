@@ -8,6 +8,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import ExpenseForm from '../components/ExpenseForm.jsx';
 import GuestForm from '../components/GuestForm.jsx';
 import TripForm from '../components/TripForm.jsx';
+import DeleteBtn from '../components/DeleteBtn.jsx';
+
 
 
 class DashboardPage extends React.Component {
@@ -48,13 +50,14 @@ class DashboardPage extends React.Component {
     this.handleTripOpen = this.handleTripOpen.bind(this);
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
+    this.handleDeleteTrip = this.handleDeleteTrip.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
     this.processExpenseForm = this.processExpenseForm.bind(this);
     this.processGuestForm = this.processGuestForm.bind(this);
     this.processTripForm = this.processTripForm.bind(this);
     this.changeExpense = this.changeExpense.bind(this);
     this.changeGuest = this.changeGuest.bind(this);
     this.changeTrip = this.changeTrip.bind(this);
-
 
   }
 
@@ -96,6 +99,99 @@ class DashboardPage extends React.Component {
     console.log(this.context);
   };
 
+  handleDeleteTrip(tripid, event) {
+    // prevent default action. in this case, action is the form submission event
+    event.preventDefault();
+
+    console.log("tripid, item:", tripid)
+    // create a string for an HTTP body message
+    const currentTrip = encodeURIComponent(tripid);
+    const formData = `currentTrip=${currentTrip}`;
+    console.log("formData", formData);
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('delete', '/api/delete', true);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
+    xhr.responseType = 'json';
+    xhr.send(formData);
+     //use .bind(this) with function to allow this.state
+    xhr.onreadystatechange=function(){
+       if (xhr.readyState==4 && xhr.status==200){
+          // console.log('xhr.readyState=', xhr.readyState);
+          // console.log('xhr.status=', xhr.status);
+          // console.log('response=', xhr.response);
+          const xhr = new XMLHttpRequest();
+          xhr.open('get', '/api/dashboard');
+          xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+          // set the authorization HTTP header
+          xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
+          xhr.responseType = 'json';
+          xhr.addEventListener('load', () => {
+            console.log("response: ", xhr.response);
+
+            if (xhr.status === 200) {
+              this.setState({
+                username: xhr.response.name,
+                useremail: xhr.response.email,
+                trips: xhr.response.trips,
+                userdbkey: xhr.response._id
+              });
+              console.log("state: ", this.state);
+            }
+          });
+          xhr.send();
+       }
+    }.bind(this)
+  };
+
+  handleDelete(tripid, array, index, event) {
+    // prevent default action. in this case, action is the form submission event
+    event.preventDefault();
+
+    console.log("tripid, item:", tripid, array, index)
+    // create a string for an HTTP body message
+    const currentTrip = encodeURIComponent(tripid);
+    // replace with item to find
+    const currentArray = encodeURIComponent(array);
+    const deleteIndex = encodeURIComponent(index);
+    const formData = `currentTrip=${currentTrip}&currentArray=${currentArray}&deleteIndex=${deleteIndex}`;
+    console.log("formData", formData);
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('put', '/api/update', true);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
+    xhr.responseType = 'json';
+    xhr.send(formData);
+     //use .bind(this) with function to allow this.state
+    xhr.onreadystatechange=function(){
+       if (xhr.readyState==4 && xhr.status==200){
+          // console.log('xhr.readyState=', xhr.readyState);
+          // console.log('xhr.status=', xhr.status);
+          // console.log('response=', xhr.response);
+          const xhr = new XMLHttpRequest();
+          xhr.open('get', '/api/dashboard');
+          xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+          // set the authorization HTTP header
+          xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
+          xhr.responseType = 'json';
+          xhr.addEventListener('load', () => {
+            console.log("response: ", xhr.response);
+
+            if (xhr.status === 200) {
+              this.setState({
+                username: xhr.response.name,
+                useremail: xhr.response.email,
+                trips: xhr.response.trips,
+                userdbkey: xhr.response._id
+              });
+              console.log("state: ", this.state);
+            }
+          });
+          xhr.send();
+       }
+    }.bind(this)
+  };
+
   //pass trip id as a parameter through bind, tripid is within the scope of this bind
   processTripForm(userid, event) {
     // prevent default action. in this case, action is the form submission event
@@ -119,7 +215,17 @@ class DashboardPage extends React.Component {
        if (xhr.readyState==4 && xhr.status==200){
           // console.log('xhr.readyState=', xhr.readyState);
           // console.log('xhr.status=', xhr.status);
-          // console.log('response=', xhr.response);
+          // console.log('response=', xhr.response);this.setState({
+          this.setState({
+            newTrip: {
+              expenses: [],
+              guests: [],
+              invoices: [],
+              token: "",
+              trip: "",
+              currentUser: ""
+            },
+          })
           const xhr = new XMLHttpRequest();
           xhr.open('get', '/api/dashboard');
           xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
@@ -312,6 +418,9 @@ iterateTrips() {
       <Card className = "smallcontainer">
         <div key={trip._id}>
           <h1>{trip.trip}</h1>
+          <DeleteBtn 
+            onClick={this.handleDeleteTrip.bind(this, trip._id)} 
+          />
           <h2>There are {trip.expenses.length} Expenses</h2>
           <h2>There are {trip.guests.length} Guests</h2>
           <div>
@@ -320,7 +429,7 @@ iterateTrips() {
               title={trip.trip}
               actions={actions}
               modal={true}
-              open={this.state.open == trip._id}
+              open={this.state.open === trip._id}
               autoScrollBodyContent={true}
             >
               <ExpenseForm
@@ -340,13 +449,23 @@ iterateTrips() {
               <h2>Expenses</h2>
               {
                 trip.expenses.map((expense, index) => (
-                  <h3>{expense.title}: {expense.cost}</h3>
+                  <div className = "itemRow">
+                    <h3>{expense.title}: {expense.cost}</h3>
+                    <DeleteBtn 
+                      onClick={this.handleDelete.bind(this, trip._id, "expenses", index)} 
+                    />
+                  </div>
                 ))
               }
               <h2>Guests</h2>
               {
                 trip.guests.map((guest, index) => (
-                  <h3>{guest.name}: {guest.email}</h3>
+                  <div className = "itemRow">
+                    <h3>{guest.name}: {guest.email}</h3>
+                    <DeleteBtn 
+                      onClick={this.handleDelete.bind(this, trip._id, "guests", index)} 
+                    />
+                  </div>
                 ))
               }
             </Dialog>
@@ -384,7 +503,7 @@ iterateTrips() {
                   title=""
                   actions={actions}
                   modal={true}
-                  open={this.state.open == this.state.userdbkey}
+                  open={this.state.open === this.state.userdbkey}
                 >
                   <TripForm
                     onSubmit={this.processTripForm.bind(this, this.state.userdbkey)}
