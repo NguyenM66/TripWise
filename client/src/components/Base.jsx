@@ -1,4 +1,6 @@
- import React, { PropTypes } from 'react';
+import React, { PropTypes } from 'react';
+import FaPaperPlane from 'react-icons/lib/fa/paper-plane';
+import FontAwesome from 'react-fontawesome';
 import { Link, IndexLink } from 'react-router';
 import Auth from '../modules/Auth';
 
@@ -7,7 +9,10 @@ const Base = ({ children }) => (
   <div>
     <div className="top-bar">
       <div className="top-bar-left">
-        <IndexLink to="/">TripWise</IndexLink>
+        <FaPaperPlane />
+        <FontAwesome name='rocket' />
+        <i className="material-icons md-light">face</i>
+        <IndexLink className="logo" to="/">TripWise</IndexLink>
       </div>
 
     { /* condition statement for deciding which menu should be shown */ }
