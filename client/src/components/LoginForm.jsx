@@ -12,7 +12,7 @@ const LoginForm = ({
   successMessage,
   user
 }) => (
-  <Card className="container">
+  <Card className="container login">
     <form action="/" onSubmit={onSubmit}>
       <h2 className="card-heading">Login</h2>
 
@@ -41,10 +41,10 @@ const LoginForm = ({
       </div>
 
       <div className="button-line">
-        <RaisedButton type="submit" label="Log in" secondary />
+        <RaisedButton className='button' type="submit" label="Log in" secondary />
       </div>
 
-      <CardText>Don't have an account? <Link to={'/signup'}>Create one</Link>.</CardText>
+      <CardText>Don't have an account? <Link className='bottomlink' to={'/signup'}>Create one</Link>.</CardText>
     </form>
   </Card>
 );

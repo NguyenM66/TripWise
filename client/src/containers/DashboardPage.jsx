@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 
 import Auth from '../modules/Auth';
 import Dashboard from '../components/Dashboard.jsx';
-import { Card, CardTitle, CardText } from 'material-ui/Card';
+import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -10,6 +10,7 @@ import ExpenseForm from '../components/ExpenseForm.jsx';
 import GuestForm from '../components/GuestForm.jsx';
 import TripForm from '../components/TripForm.jsx';
 import DeleteBtn from '../components/DeleteBtn.jsx';
+
 
 
 
@@ -409,69 +410,72 @@ iterateTrips() {
     const actions = [
       <FlatButton
         label="Finished"
-        primary={true}
+        secondary={true}
         onClick={this.handleClose}
       />,
     ];
 
   return(
     this.state.trips.map((trip, index) => (
-      <Card className = "smallcontainer">
-        <div className = "trip" key={trip._id}>
-          <h1>{trip.trip}</h1>
+      <Card key={trip._id} className = "smallcontainer trip">
+        <CardActions>
           <DeleteBtn 
-            onClick={this.handleDeleteTrip.bind(this, trip._id)} 
-          />
-          <h2>There are {trip.expenses.length} Expenses</h2>
-          <h2>There are {trip.guests.length} Guests</h2>
-          <div className="eachtrip">
-            <RaisedButton label={trip.trip} onClick={this.handleOpen.bind(this, trip._id)} secondary/>
-            <Dialog
-              title={trip.trip}
-              actions={actions}
-              modal={true}
-              open={this.state.open === trip._id}
-              autoScrollBodyContent={true}
-            >
-              <ExpenseForm
-                onSubmit={this.processExpenseForm.bind(this,trip._id)}
-                onChange={this.changeExpense}
-                errors={this.state.errors}
-                successMessage={this.state.successMessage}
-                newExpense={this.state.newExpense}
-              />
-              <GuestForm
-                onSubmit={this.processGuestForm.bind(this,trip._id)}
-                onChange={this.changeGuest}
-                errors={this.state.errors}
-                successMessage={this.state.successMessage}
-                newGuest={this.state.newGuest}
-              />
-              <h2>Expenses</h2>
-              {
-                trip.expenses.map((expense, index) => (
-                  <div className = "itemRow">
-                    <h3>{expense.title}: {expense.cost}</h3>
-                    <DeleteBtn 
-                      onClick={this.handleDelete.bind(this, trip._id, "expenses", index)} 
-                    />
-                  </div>
-                ))
-              }
-              <h2>Guests</h2>
-              {
-                trip.guests.map((guest, index) => (
-                  <div className = "itemRow">
-                    <h3>{guest.name}: {guest.email}</h3>
-                    <DeleteBtn 
-                      onClick={this.handleDelete.bind(this, trip._id, "guests", index)} 
-                    />
-                  </div>
-                ))
-              }
-            </Dialog>
-          </div>
-        </div>
+              onClick={this.handleDeleteTrip.bind(this, trip._id)} 
+            />
+        </CardActions>
+        <CardText>
+            <h1>{trip.trip}</h1>
+                        
+            <h2>This trip has {trip.expenses.length} Expenses</h2>
+            <h2>This trip has {trip.guests.length} Guests</h2>
+            <CardActions className="eachtrip">
+              <RaisedButton className='button' label='Edit Trip' onClick={this.handleOpen.bind(this, trip._id)} secondary/>
+              <Dialog
+                className='dialog'
+                title={trip.trip}
+                actions={actions}
+                modal={true}
+                open={this.state.open === trip._id}
+                autoScrollBodyContent={true}
+              >
+                <ExpenseForm
+                  onSubmit={this.processExpenseForm.bind(this,trip._id)}
+                  onChange={this.changeExpense}
+                  errors={this.state.errors}
+                  successMessage={this.state.successMessage}
+                  newExpense={this.state.newExpense}
+                />
+                <GuestForm
+                  onSubmit={this.processGuestForm.bind(this,trip._id)}
+                  onChange={this.changeGuest}
+                  errors={this.state.errors}
+                  successMessage={this.state.successMessage}
+                  newGuest={this.state.newGuest}
+                />
+                <h2 className='itemstitle'>Expenses</h2>
+                {
+                  trip.expenses.map((expense, index) => (
+                    <div className = "itemRow">
+                        <h3 className='items'>{expense.title}: {expense.cost}<DeleteBtn 
+                          onClick={this.handleDelete.bind(this, trip._id, "expenses", index)} 
+                        /></h3>
+                    </div>
+                  ))
+                }
+                <h2 className='itemstitle'>Guests</h2>
+                {
+                  trip.guests.map((guest, index) => (
+                    <div className = "itemRow">
+                      <h3 className="items">{guest.name}: {guest.email}<DeleteBtn 
+                        onClick={this.handleDelete.bind(this, trip._id, "guests", index)} 
+                      /></h3>
+                    </div>
+                  ))
+                }
+              </Dialog>
+            </CardActions>
+          </CardText>
+
       </Card>
     ))
   )
@@ -483,7 +487,7 @@ iterateTrips() {
     const actions = [
       <FlatButton
         label="Finished"
-        primary={true}
+        secondary={true}
         onClick={this.handleClose}
       />,
     ];
@@ -495,9 +499,8 @@ iterateTrips() {
           title="Welcome to Your Trips Page" 
           subtitle={this.state.username}
         />
-        <div className="content">
-              <div>
-                <RaisedButton label="Create New Trip" onClick={this.handleTripOpen.bind(this, this.state.userdbkey)} secondary/>
+        <CardText className="content">
+                <RaisedButton className='newtrip button' label="Create New Trip" onClick={this.handleTripOpen.bind(this, this.state.userdbkey)} secondary/>
                 <Dialog
                   title=""
                   actions={actions}
@@ -512,7 +515,6 @@ iterateTrips() {
                     newTrip={this.state.newTrip}
                   />
                 </Dialog>
-              </div>
              {this.state.trips.length ? (
                 <div>
                   {this.iterateTrips()}
@@ -520,7 +522,7 @@ iterateTrips() {
               ) : (
                 <h3>No Results to Display</h3>
               )}
-        </div>
+        </CardText>
       </Card>
     )
   }

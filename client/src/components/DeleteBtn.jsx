@@ -5,7 +5,7 @@ const DeleteBtn = props => (
 	<FontAwesome
 		className='delete-btn'
 		name='trash'
-		size='2x'
+		size='1x'
 	{...props}/>
 );
 

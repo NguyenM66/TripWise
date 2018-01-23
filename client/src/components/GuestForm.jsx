@@ -38,7 +38,7 @@ const GuestForm = ({
       </div>
 
       <div className="button-line">
-        <RaisedButton type="submit" label="Create New Guest" secondary />
+        <RaisedButton className='button' type="submit" label="Create New Guest" secondary />
       </div>
     </form>
   </Card>
