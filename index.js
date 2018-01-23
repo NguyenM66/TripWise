@@ -10,8 +10,8 @@ const config = require('./config/keys');
 
 // Set up promises with mongoose
 mongoose.Promise = global.Promise;
-//connect to mongodb
-mongoose.connect(config.mongodb.dbUri, () => {
+//connect to mongodb was: config.mongodb.dbUri
+mongoose.connect(process.env.dbUri, () => {
 	console.log('connected to mongodb');
 })
 

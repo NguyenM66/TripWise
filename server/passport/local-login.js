@@ -44,8 +44,8 @@ module.exports = new PassportLocalStrategy({
         sub: user._id
       };
 
-      // if user exists and the password is correct create a token string (JWT)
-      const token = jwt.sign(payload, config.mongodb.jwtSecret);
+      // if user exists and the password is correct create a token string (JWT) was: config.mongodb.jwtSecret
+      const token = jwt.sign(payload, process.env.jwtSecret);
       const data = {
         id: user._id,
         email: user.email,
