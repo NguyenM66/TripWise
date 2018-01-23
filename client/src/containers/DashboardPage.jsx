@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+
 import Auth from '../modules/Auth';
 import Dashboard from '../components/Dashboard.jsx';
 import { Card, CardTitle, CardText } from 'material-ui/Card';
@@ -416,15 +417,15 @@ iterateTrips() {
   return(
     this.state.trips.map((trip, index) => (
       <Card className = "smallcontainer">
-        <div key={trip._id}>
+        <div className = "trip" key={trip._id}>
           <h1>{trip.trip}</h1>
           <DeleteBtn 
             onClick={this.handleDeleteTrip.bind(this, trip._id)} 
           />
           <h2>There are {trip.expenses.length} Expenses</h2>
           <h2>There are {trip.guests.length} Guests</h2>
-          <div>
-            <RaisedButton label={trip.trip} onClick={this.handleOpen.bind(this, trip._id)} primary/>
+          <div className="eachtrip">
+            <RaisedButton label={trip.trip} onClick={this.handleOpen.bind(this, trip._id)} secondary/>
             <Dialog
               title={trip.trip}
               actions={actions}
@@ -490,15 +491,13 @@ iterateTrips() {
     return (
       <Card className="container">
         <CardTitle
-          title={this.state.username}
-          subtitle="You should get access to this page only after authentication."
+          className="cardtitle"
+          title="Welcome to Your Trips Page" 
+          subtitle={this.state.username}
         />
         <div className="content">
-              <strong>Name:</strong> {this.state.username}
-              <strong>Email:</strong> {this.state.useremail}
-              <strong>Trips:</strong> 
               <div>
-                <RaisedButton label="Create New Trip" onClick={this.handleTripOpen.bind(this, this.state.userdbkey)} primary/>
+                <RaisedButton label="Create New Trip" onClick={this.handleTripOpen.bind(this, this.state.userdbkey)} secondary/>
                 <Dialog
                   title=""
                   actions={actions}

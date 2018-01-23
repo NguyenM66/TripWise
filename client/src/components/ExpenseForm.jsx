@@ -11,7 +11,7 @@ const ExpenseForm = ({
   errors,
   newExpense,
 }) => (
-  <Card className="smallcontainer">
+  <Card className="xsmallcontainer">
     <form action="/" onSubmit={onSubmit}>
       <h2 className="card-heading">New Expense</h2>
 
@@ -38,7 +38,7 @@ const ExpenseForm = ({
       </div>
 
       <div className="button-line">
-        <RaisedButton type="submit" label="Create New Expense" primary />
+        <RaisedButton type="submit" label="Create New Expense" secondary />
       </div>
     </form>
   </Card>

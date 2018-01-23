@@ -11,7 +11,7 @@ const TripForm = ({
   errors,
   newTrip,
 }) => (
-  <Card className="smallcontainer">
+  <Card className="xsmallcontainer">
     <form action="/" onSubmit={onSubmit}>
       <h2 className="card-heading">New Trip</h2>
 
@@ -28,7 +28,7 @@ const TripForm = ({
       </div>
 
       <div className="button-line">
-        <RaisedButton type="submit" label="Create New Trip" primary />
+        <RaisedButton type="submit" label="Create New Trip" secondary />
       </div>
     </form>
   </Card>

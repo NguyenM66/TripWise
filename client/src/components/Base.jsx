@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import FaPaperPlane from 'react-icons/lib/fa/paper-plane';
 import FontAwesome from 'react-fontawesome';
 import { Link, IndexLink } from 'react-router';
 import Auth from '../modules/Auth';
@@ -9,9 +8,12 @@ const Base = ({ children }) => (
   <div>
     <div className="top-bar">
       <div className="top-bar-left">
-        <FaPaperPlane />
-        <FontAwesome name='rocket' />
-        <i className="material-icons md-light">face</i>
+        <FontAwesome
+          className='super-crazy-colors'
+          name='paper-plane'
+          size='2x'
+          style={{textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)' }}
+        />
         <IndexLink className="logo" to="/">TripWise</IndexLink>
       </div>
 

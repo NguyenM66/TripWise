@@ -11,7 +11,7 @@ const GuestForm = ({
   errors,
   newGuest,
 }) => (
-  <Card className="smallcontainer">
+  <Card className="xsmallcontainer">
     <form action="/" onSubmit={onSubmit}>
       <h2 className="card-heading">New Guest</h2>
 
@@ -38,7 +38,7 @@ const GuestForm = ({
       </div>
 
       <div className="button-line">
-        <RaisedButton type="submit" label="Create New Guest" primary />
+        <RaisedButton type="submit" label="Create New Guest" secondary />
       </div>
     </form>
   </Card>

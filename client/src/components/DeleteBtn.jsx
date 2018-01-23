@@ -1,9 +1,12 @@
 import React from "react";
+import FontAwesome from 'react-fontawesome';
 
 const DeleteBtn = props => (
-  <span className="delete-btn" {...props}>
-    ✗
-  </span>
+	<FontAwesome
+		className='delete-btn'
+		name='trash'
+		size='2x'
+	{...props}/>
 );
 
 export default DeleteBtn;
