@@ -119,8 +119,11 @@ a:hover {
 }
 
 
-h1 {
-  color: #69f9c5;
+h1{
   text-align: center;
+}
+
+h1, h2{
+  color: #69f9c5;
   text-shadow: 3px 3px rgb(53, 51, 51);
 }
