@@ -11,7 +11,7 @@ const SignUpForm = ({
   errors,
   user,
 }) => (
-  <Card className="container">
+  <Card className="container signup">
     <form action="/" onSubmit={onSubmit}>
       <h2 className="card-heading">Sign Up</h2>
 
@@ -49,10 +49,10 @@ const SignUpForm = ({
       </div>
 
       <div className="button-line">
-        <RaisedButton type="submit" label="Create New Account" secondary />
+        <RaisedButton className='button' type="submit" label="Create New Account" secondary />
       </div>
 
-      <CardText>Already have an account? <Link to={'/login'}>Log in</Link></CardText>
+      <CardText>Already have an account? <Link className='bottomlink' to={'/login'}>Log in</Link></CardText>
     </form>
   </Card>
 );

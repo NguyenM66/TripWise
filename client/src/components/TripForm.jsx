@@ -28,7 +28,7 @@ const TripForm = ({
       </div>
 
       <div className="button-line">
-        <RaisedButton type="submit" label="Create New Trip" secondary />
+        <RaisedButton className='button' type="submit" label="Create New Trip" secondary />
       </div>
     </form>
   </Card>

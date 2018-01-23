@@ -38,7 +38,7 @@ const ExpenseForm = ({
       </div>
 
       <div className="button-line">
-        <RaisedButton type="submit" label="Create New Expense" secondary />
+        <RaisedButton className='button' type="submit" label="Create New Expense" secondary />
       </div>
     </form>
   </Card>
