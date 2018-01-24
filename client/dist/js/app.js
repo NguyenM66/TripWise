@@ -17854,6 +17854,7 @@ var HomePage = function HomePage() {
 				{ className: 'card-sub' },
 				'Where you can easily keep track of the expenses and the guests you have on trips you are planning. '
 			),
+			_react2.default.createElement('img', { className: 'homeimg', src: '../js/img/home.png', alt: 'home' }),
 			_react2.default.createElement(
 				'h3',
 				null,
