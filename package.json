@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "watach": "concurrently \"nodemon --use_strict index.js\" \"npm run bundle\"",
+    "watch": "concurrently \"nodemon --use_strict index.js\" \"npm run bundle\"",
     "bundle": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
