@@ -18280,6 +18280,7 @@ var DashboardPage = function (_React$Component) {
     //bind is used to set this.state to function
     _this.iterateTrips = _this.iterateTrips.bind(_this);
     _this.sumValue = _this.sumValue.bind(_this);
+    _this.validValue = _this.validValue.bind(_this);
     _this.handleTripOpen = _this.handleTripOpen.bind(_this);
     _this.handleOpen = _this.handleOpen.bind(_this);
     _this.handleClose = _this.handleClose.bind(_this);
@@ -18683,6 +18684,15 @@ var DashboardPage = function (_React$Component) {
       console.log("total", total);
       return total;
     }
+  }, {
+    key: 'validValue',
+    value: function validValue(value) {
+      if (value === 'NaN') {
+        return 0.00.toFixed(2);
+      } else {
+        return value;
+      }
+    }
 
     // iterate through trips and get trip data
 
@@ -18745,13 +18755,13 @@ var DashboardPage = function (_React$Component) {
               'h2',
               null,
               'The total trip cost is $',
-              tripSum
+              _this8.validValue(tripSum)
             ),
             _react2.default.createElement(
               'h2',
               null,
               'Each person on this trip owes $',
-              perPerson
+              _this8.validValue(perPerson)
             ),
             _react2.default.createElement(
               _Card.CardActions,
@@ -18796,7 +18806,7 @@ var DashboardPage = function (_React$Component) {
                       { className: 'items' },
                       expense.title,
                       ': $',
-                      parseFloat(expense.cost).toFixed(2),
+                      _this8.validValue(parseFloat(expense.cost).toFixed(2)),
                       _react2.default.createElement(_DeleteBtn2.default, {
                         onClick: _this8.handleDelete.bind(_this8, trip._id, "expenses", index)
                       })

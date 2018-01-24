@@ -50,6 +50,7 @@ class DashboardPage extends React.Component {
     //bind is used to set this.state to function
     this.iterateTrips = this.iterateTrips.bind(this);
     this.sumValue = this.sumValue.bind(this);
+    this.validValue  = this.validValue.bind(this);
     this.handleTripOpen = this.handleTripOpen.bind(this);
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -413,6 +414,14 @@ sumValue(array) {
     )
 }
 
+validValue(value) {
+  if (value === 'NaN') {
+    return (0.00).toFixed(2);
+  }else {
+    return value;
+  }
+}
+
 // iterate through trips and get trip data
 
 iterateTrips() {
@@ -449,8 +458,8 @@ iterateTrips() {
              
             <h2>This trip has {trip.expenses.length} Expenses</h2>
             <h2>This trip has {trip.guests.length} Guests</h2>
-            <h2>The total trip cost is ${tripSum}</h2>
-            <h2>Each person on this trip owes ${perPerson}</h2>
+            <h2>The total trip cost is ${this.validValue(tripSum)}</h2>
+            <h2>Each person on this trip owes ${this.validValue(perPerson)}</h2>
             <CardActions className="eachtrip">
               <RaisedButton className='button' label='Edit Trip' onClick={this.handleOpen.bind(this, trip._id)} secondary/>
               <Dialog
@@ -480,7 +489,7 @@ iterateTrips() {
                 {
                   trip.expenses.map((expense, index) => (
                     <div className = "itemRow">
-                        <h3 className='items'>{expense.title}: ${parseFloat(expense.cost).toFixed(2)}<DeleteBtn 
+                        <h3 className='items'>{expense.title}: ${this.validValue(parseFloat(expense.cost).toFixed(2))}<DeleteBtn 
                           onClick={this.handleDelete.bind(this, trip._id, "expenses", index)} 
                         /></h3>
                     </div>
