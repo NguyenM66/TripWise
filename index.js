@@ -57,5 +57,5 @@ app.use(function(err,req,res,next){
 
 // start the server
 app.listen(process.env.PORT || 3000, () => {
-  console.log('Server is running on http://localhost:3000 or http://127.0.0.1:3000');
+  console.log('Server is running on https://tripwise-hero.herokuapp.com/ or http://localhost:3000 or http://127.0.0.1:3000');
 });

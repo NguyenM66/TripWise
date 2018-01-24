@@ -17829,6 +17829,12 @@ var _react2 = _interopRequireDefault(_react);
 
 var _Card = __webpack_require__(33);
 
+var _reactRouter = __webpack_require__(36);
+
+var _RaisedButton = __webpack_require__(40);
+
+var _RaisedButton2 = _interopRequireDefault(_RaisedButton);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var HomePage = function HomePage() {
@@ -17839,19 +17845,25 @@ var HomePage = function HomePage() {
 			_Card.CardText,
 			null,
 			_react2.default.createElement(
-				'h2',
-				{ className: 'card-heading' },
+				'h1',
+				{ className: 'card-heading welcome' },
 				'Welcome to TripWise!'
 			),
 			_react2.default.createElement(
-				'h3',
+				'h2',
 				{ className: 'card-sub' },
-				'Where you to easily keep track of the expenses and the guests you have on trips you are planning. '
+				'Where you can easily keep track of the expenses and the guests you have on trips you are planning. '
 			),
+			_react2.default.createElement('img', { className: 'homeimg', src: '/images/userHome.png', alt: 'home' }),
 			_react2.default.createElement(
 				'h3',
 				null,
 				'Signup or Login to begin tracking your Trips. '
+			),
+			_react2.default.createElement(
+				_reactRouter.Link,
+				{ className: 'bottomlink', to: '/signup' },
+				_react2.default.createElement(_RaisedButton2.default, { className: 'button', type: 'submit', label: 'Get Started Now!', secondary: true })
 			)
 		)
 	);

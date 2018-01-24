@@ -20,7 +20,7 @@ a:hover {
 }
 
 .bottomlink {
-  text-shadow: 1px 1px rgb(53, 51, 51);
+  text-shadow: .5px .5px rgb(53, 51, 51);
 }
 
 .text-center {
@@ -44,7 +44,7 @@ a:hover {
 
 .logo {
   font-family: 'Permanent Marker', cursive; 
-  font-size: 45px;
+  font-size: 40px;
   font-weight: normal;
 }
 
@@ -70,7 +70,12 @@ a:hover {
 
 .home, .login, .signup {
   text-align: center;
-  background-color: rgba(243, 247, 247, 0.8) !important;
+  background-color: rgba(243, 247, 247, .87) !important;
+}
+
+.homeimg {
+  width: 800px;
+  height: 400px;
 }
 
 .content {
@@ -93,11 +98,16 @@ a:hover {
   padding: 16px;
 }
 
+.welcome {
+  font-size: 55px;
+  font-family: 'Permanent Marker', cursive; 
+}
+
 .cardtitle span {
   text-align: center;
   font-weight: bold;
   color:#4b5250;
-  text-shadow: 1px 1px rgb(191, 184, 184);
+  /*text-shadow: 1px 1px rgb(191, 184, 184);*/
 }
 
 .field-line, .button-line {
@@ -132,13 +142,13 @@ a:hover {
 
 h1, h3, .itemstitle {
   text-align: center;
-  text-shadow: 1px 1px rgb(191, 184, 184);
-}
+/*  text-shadow: 1px 1px rgb(191, 184, 184);
+*/}
 
 h1, h2, h3{
   color:#4b5250;
-  text-shadow: 1px 1px rgb(191, 184, 184);
-}
+/*  text-shadow: 1px 1px rgb(191, 184, 184);
+*/}
 
 .items {
   text-align: left;
