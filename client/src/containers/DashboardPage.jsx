@@ -49,6 +49,7 @@ class DashboardPage extends React.Component {
 
     //bind is used to set this.state to function
     this.iterateTrips = this.iterateTrips.bind(this);
+    this.sumValue = this.sumValue.bind(this);
     this.handleTripOpen = this.handleTripOpen.bind(this);
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -402,6 +403,15 @@ class DashboardPage extends React.Component {
     });
   }
 
+sumValue(array) {
+  const currentArray = array;
+  const reducer = (accum, currentVal) => accum + parseFloat(currentVal.cost);
+  const total = currentArray.reduce(reducer, 0);
+  console.log("total", total);
+  return(
+    total
+    )
+}
 
 // iterate through trips and get trip data
 
@@ -415,8 +425,19 @@ iterateTrips() {
       />,
     ];
 
+    const style = {
+      backgroundColor: 'rgba(243, 247, 247, 0.57)',
+      color: '#4b5250',
+      fontFamily: 'Permanent Marker',
+      textShadow: '1px 1px rgb(191, 184, 184)',
+      fontSize: '40px'
+    }
+
   return(
-    this.state.trips.map((trip, index) => (
+    this.state.trips.map((trip, index) => {
+      const tripSum = (this.sumValue(trip.expenses)).toFixed(2);
+      const perPerson = (tripSum/trip.guests.length).toFixed(2);
+      return (
       <Card key={trip._id} className = "smallcontainer trip">
         <CardActions>
           <DeleteBtn 
@@ -425,14 +446,17 @@ iterateTrips() {
         </CardActions>
         <CardText>
             <h1>{trip.trip}</h1>
-                        
+             
             <h2>This trip has {trip.expenses.length} Expenses</h2>
             <h2>This trip has {trip.guests.length} Guests</h2>
+            <h2>The total trip cost is ${tripSum}</h2>
+            <h2>Each person on this trip owes ${perPerson}</h2>
             <CardActions className="eachtrip">
               <RaisedButton className='button' label='Edit Trip' onClick={this.handleOpen.bind(this, trip._id)} secondary/>
               <Dialog
                 className='dialog'
                 title={trip.trip}
+                titleStyle={style}
                 actions={actions}
                 modal={true}
                 open={this.state.open === trip._id}
@@ -456,12 +480,13 @@ iterateTrips() {
                 {
                   trip.expenses.map((expense, index) => (
                     <div className = "itemRow">
-                        <h3 className='items'>{expense.title}: {expense.cost}<DeleteBtn 
+                        <h3 className='items'>{expense.title}: ${parseFloat(expense.cost).toFixed(2)}<DeleteBtn 
                           onClick={this.handleDelete.bind(this, trip._id, "expenses", index)} 
                         /></h3>
                     </div>
                   ))
                 }
+                
                 <h2 className='itemstitle'>Guests</h2>
                 {
                   trip.guests.map((guest, index) => (
@@ -477,7 +502,8 @@ iterateTrips() {
           </CardText>
 
       </Card>
-    ))
+    )
+    })
   )
 }
 
@@ -492,11 +518,27 @@ iterateTrips() {
       />,
     ];
 
+    const style = {
+      color: '#282b2a',
+      fontFamily: 'Permanent Marker',
+      textShadow: '1px 1px rgb(191, 184, 184)',
+      fontSize: '30px'
+    }
+
+    const subStyle = {
+      color: '#282b2a',
+      fontFamily: 'Roboto Slab',
+      textShadow: '1px 1px rgb(191, 184, 184)',
+      fontSize: '20px'
+    }
+
     return (
       <Card className="container">
         <CardTitle
           className="cardtitle"
           title="Welcome to Your Trips Page" 
+          titleStyle={style}
+          subtitleStyle={subStyle}
           subtitle={this.state.username}
         />
         <CardText className="content">

@@ -17837,24 +17837,31 @@ var _RaisedButton2 = _interopRequireDefault(_RaisedButton);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var style = {
+	color: '#4b5250',
+	fontFamily: 'Permanent Marker',
+	textShadow: '1px 1px rgb(191, 184, 184)',
+	fontSize: '70px',
+	paddingTop: '20px'
+};
+
 var HomePage = function HomePage() {
 	return _react2.default.createElement(
 		_Card.Card,
 		{ className: 'container home' },
+		_react2.default.createElement(_Card.CardTitle, {
+			title: 'Welcome to TripWise!',
+			titleStyle: style
+		}),
 		_react2.default.createElement(
 			_Card.CardText,
 			null,
 			_react2.default.createElement(
-				'h1',
-				{ className: 'card-heading welcome' },
-				'Welcome to TripWise!'
-			),
-			_react2.default.createElement(
 				'h2',
 				{ className: 'card-sub' },
-				'Where you can easily keep track of the expenses and the guests you have on trips you are planning. '
+				'Where you can easily keep track of trips you are planning. Manage your trip expenses, guests, the total cost of a trip and how much each guest owes. '
 			),
-			_react2.default.createElement('img', { className: 'homeimg', src: '../js/img/home.png', alt: 'home' }),
+			_react2.default.createElement('img', { className: 'homeimg', src: '../js/img/finalhome.png', alt: 'home' }),
 			_react2.default.createElement(
 				'h3',
 				null,
@@ -18272,6 +18279,7 @@ var DashboardPage = function (_React$Component) {
 
     //bind is used to set this.state to function
     _this.iterateTrips = _this.iterateTrips.bind(_this);
+    _this.sumValue = _this.sumValue.bind(_this);
     _this.handleTripOpen = _this.handleTripOpen.bind(_this);
     _this.handleOpen = _this.handleOpen.bind(_this);
     _this.handleClose = _this.handleClose.bind(_this);
@@ -18664,6 +18672,17 @@ var DashboardPage = function (_React$Component) {
         newGuest: newGuest
       });
     }
+  }, {
+    key: 'sumValue',
+    value: function sumValue(array) {
+      var currentArray = array;
+      var reducer = function reducer(accum, currentVal) {
+        return accum + parseFloat(currentVal.cost);
+      };
+      var total = currentArray.reduce(reducer, 0);
+      console.log("total", total);
+      return total;
+    }
 
     // iterate through trips and get trip data
 
@@ -18679,7 +18698,17 @@ var DashboardPage = function (_React$Component) {
         onClick: this.handleClose
       })];
 
+      var style = {
+        backgroundColor: 'rgba(243, 247, 247, 0.57)',
+        color: '#4b5250',
+        fontFamily: 'Permanent Marker',
+        textShadow: '1px 1px rgb(191, 184, 184)',
+        fontSize: '40px'
+      };
+
       return this.state.trips.map(function (trip, index) {
+        var tripSum = _this8.sumValue(trip.expenses).toFixed(2);
+        var perPerson = (tripSum / trip.guests.length).toFixed(2);
         return _react2.default.createElement(
           _Card.Card,
           { key: trip._id, className: 'smallcontainer trip' },
@@ -18713,6 +18742,18 @@ var DashboardPage = function (_React$Component) {
               ' Guests'
             ),
             _react2.default.createElement(
+              'h2',
+              null,
+              'The total trip cost is $',
+              tripSum
+            ),
+            _react2.default.createElement(
+              'h2',
+              null,
+              'Each person on this trip owes $',
+              perPerson
+            ),
+            _react2.default.createElement(
               _Card.CardActions,
               { className: 'eachtrip' },
               _react2.default.createElement(_RaisedButton2.default, { className: 'button', label: 'Edit Trip', onClick: _this8.handleOpen.bind(_this8, trip._id), secondary: true }),
@@ -18721,6 +18762,7 @@ var DashboardPage = function (_React$Component) {
                 {
                   className: 'dialog',
                   title: trip.trip,
+                  titleStyle: style,
                   actions: actions,
                   modal: true,
                   open: _this8.state.open === trip._id,
@@ -18753,8 +18795,8 @@ var DashboardPage = function (_React$Component) {
                       'h3',
                       { className: 'items' },
                       expense.title,
-                      ': ',
-                      expense.cost,
+                      ': $',
+                      parseFloat(expense.cost).toFixed(2),
                       _react2.default.createElement(_DeleteBtn2.default, {
                         onClick: _this8.handleDelete.bind(_this8, trip._id, "expenses", index)
                       })
@@ -18800,12 +18842,28 @@ var DashboardPage = function (_React$Component) {
         onClick: this.handleClose
       })];
 
+      var style = {
+        color: '#282b2a',
+        fontFamily: 'Permanent Marker',
+        textShadow: '1px 1px rgb(191, 184, 184)',
+        fontSize: '30px'
+      };
+
+      var subStyle = {
+        color: '#282b2a',
+        fontFamily: 'Roboto Slab',
+        textShadow: '1px 1px rgb(191, 184, 184)',
+        fontSize: '20px'
+      };
+
       return _react2.default.createElement(
         _Card.Card,
         { className: 'container' },
         _react2.default.createElement(_Card.CardTitle, {
           className: 'cardtitle',
           title: 'Welcome to Your Trips Page',
+          titleStyle: style,
+          subtitleStyle: subStyle,
           subtitle: this.state.username
         }),
         _react2.default.createElement(

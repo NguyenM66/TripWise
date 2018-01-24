@@ -4,8 +4,8 @@ body {
   font-size: 16px;
   font-family: 'Roboto Slab', serif;
   background-image: url("../images/mapmod.jpg");
-/*  text-shadow: 3px 3px rgb(53, 51, 51);
-*/}
+  text-shadow: .25px .25px rgb(53, 51, 51);
+}
 
 a {
   color: #69f9c5;
@@ -107,7 +107,7 @@ a:hover {
   text-align: center;
   font-weight: bold;
   color:#4b5250;
-  /*text-shadow: 1px 1px rgb(191, 184, 184);*/
+  text-shadow: 1px 1px rgb(191, 184, 184);
 }
 
 .field-line, .button-line {
@@ -142,13 +142,13 @@ a:hover {
 
 h1, h3, .itemstitle {
   text-align: center;
-/*  text-shadow: 1px 1px rgb(191, 184, 184);
-*/}
+  text-shadow: 1px 1px rgb(191, 184, 184);
+}
 
 h1, h2, h3{
   color:#4b5250;
-/*  text-shadow: 1px 1px rgb(191, 184, 184);
-*/}
+  text-shadow: 1px 1px rgb(191, 184, 184);
+}
 
 .items {
   text-align: left;
