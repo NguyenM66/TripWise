@@ -4,7 +4,8 @@
   "description": "React App that uses JWT, Passport and Mongo for user authentication",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently \"nodemon --use_strict index.js\" \"npm run bundle\"",
+    "start": "node index.js",
+    "watach": "concurrently \"nodemon --use_strict index.js\" \"npm run bundle\"",
     "bundle": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
