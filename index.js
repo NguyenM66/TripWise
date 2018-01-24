@@ -11,7 +11,7 @@ const config = require('./config/keys');
 // Set up promises with mongoose
 mongoose.Promise = global.Promise;
 //connect to mongodb was: config.mongodb.dbUri
-mongoose.connect(process.env.dbUri, () => {
+mongoose.connect(process.env.dbUri || config.mongodb.dbUri, () => {
 	console.log('connected to mongodb');
 })
 
@@ -39,12 +39,16 @@ passport.use('local-login', localLoginStrategy);
 // commenting this out should make everything public
 // const authCheckMiddleware = require('./server/middleware/auth-check');
 // app.use('/api', authCheckMiddleware);
-
 // routes
 const authRoutes = require('./server/routes/auth');
 const apiRoutes = require('./server/routes/api');
 app.use('/auth', authRoutes);
 app.use('/api', apiRoutes);
+
+app.use(function(req, res) {
+  res.sendFile(path.join(__dirname, './server/static/index.html'));
+});
+
 app.use(function(err,req,res,next){
 	console.log(err)
 	res.status(500).send(err.message)

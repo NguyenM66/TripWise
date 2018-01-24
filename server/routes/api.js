@@ -8,7 +8,7 @@ const router = new express.Router();
 
 router.get('/dashboard', (req, res, next) => {
 	//was: config.mongodb.jwtSecret
-  let userDBKey = (jwt.verify(req.headers.authorization.split(' ')[1],process.env.jwtSecret)).sub;
+  let userDBKey = (jwt.verify(req.headers.authorization.split(' ')[1],process.env.jwtSecret || config.mongodb.jwtSecret)).sub;
   
   db.User
     .find({"_id":userDBKey})
