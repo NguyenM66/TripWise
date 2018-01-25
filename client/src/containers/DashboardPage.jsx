@@ -471,20 +471,6 @@ iterateTrips() {
                 open={this.state.open === trip._id}
                 autoScrollBodyContent={true}
               >
-                <ExpenseForm
-                  onSubmit={this.processExpenseForm.bind(this,trip._id)}
-                  onChange={this.changeExpense}
-                  errors={this.state.errors}
-                  successMessage={this.state.successMessage}
-                  newExpense={this.state.newExpense}
-                />
-                <GuestForm
-                  onSubmit={this.processGuestForm.bind(this,trip._id)}
-                  onChange={this.changeGuest}
-                  errors={this.state.errors}
-                  successMessage={this.state.successMessage}
-                  newGuest={this.state.newGuest}
-                />
                 <h2 className='itemstitle'>Expenses</h2>
                 {
                   trip.expenses.map((expense, index) => (
@@ -506,6 +492,20 @@ iterateTrips() {
                     </div>
                   ))
                 }
+                 <ExpenseForm
+                  onSubmit={this.processExpenseForm.bind(this,trip._id)}
+                  onChange={this.changeExpense}
+                  errors={this.state.errors}
+                  successMessage={this.state.successMessage}
+                  newExpense={this.state.newExpense}
+                />
+                <GuestForm
+                  onSubmit={this.processGuestForm.bind(this,trip._id)}
+                  onChange={this.changeGuest}
+                  errors={this.state.errors}
+                  successMessage={this.state.successMessage}
+                  newGuest={this.state.newGuest}
+                />
               </Dialog>
             </CardActions>
           </CardText>

@@ -18778,20 +18778,6 @@ var DashboardPage = function (_React$Component) {
                   open: _this8.state.open === trip._id,
                   autoScrollBodyContent: true
                 },
-                _react2.default.createElement(_ExpenseForm2.default, {
-                  onSubmit: _this8.processExpenseForm.bind(_this8, trip._id),
-                  onChange: _this8.changeExpense,
-                  errors: _this8.state.errors,
-                  successMessage: _this8.state.successMessage,
-                  newExpense: _this8.state.newExpense
-                }),
-                _react2.default.createElement(_GuestForm2.default, {
-                  onSubmit: _this8.processGuestForm.bind(_this8, trip._id),
-                  onChange: _this8.changeGuest,
-                  errors: _this8.state.errors,
-                  successMessage: _this8.state.successMessage,
-                  newGuest: _this8.state.newGuest
-                }),
                 _react2.default.createElement(
                   'h2',
                   { className: 'itemstitle' },
@@ -18833,6 +18819,20 @@ var DashboardPage = function (_React$Component) {
                       })
                     )
                   );
+                }),
+                _react2.default.createElement(_ExpenseForm2.default, {
+                  onSubmit: _this8.processExpenseForm.bind(_this8, trip._id),
+                  onChange: _this8.changeExpense,
+                  errors: _this8.state.errors,
+                  successMessage: _this8.state.successMessage,
+                  newExpense: _this8.state.newExpense
+                }),
+                _react2.default.createElement(_GuestForm2.default, {
+                  onSubmit: _this8.processGuestForm.bind(_this8, trip._id),
+                  onChange: _this8.changeGuest,
+                  errors: _this8.state.errors,
+                  successMessage: _this8.state.successMessage,
+                  newGuest: _this8.state.newGuest
                 })
               )
             )
